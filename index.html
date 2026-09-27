@@ -139,7 +139,7 @@ html.lecture,html.lecture body{height:100%;overflow:hidden}
 .partnav button.done{color:var(--ink-2)}
 .partnav button.cur{color:var(--ink);border-bottom-color:var(--you)}
 .partnav button.cur b{color:var(--you)}
-.partnav .pn-brand{color:var(--ink-2);position:absolute;left:24px;top:0;bottom:0;display:flex;align-items:center;font-family:var(--f-display);font-weight:var(--d-weight);font-size:14px;letter-spacing:var(--d-track)}
+.partnav .pn-brand{color:var(--ink-2);margin-right:auto;padding-left:12px;flex:none;display:flex;align-items:center;font-family:var(--f-display);font-weight:var(--d-weight);font-size:14px;letter-spacing:var(--d-track)}
 .partnav .pn-brand i{color:var(--you);font-style:normal;padding:0 .2em}
 .partnav .pn-gap{margin-left:auto}
 
@@ -381,25 +381,16 @@ textarea:focus,input:focus{outline:3px solid var(--you);outline-offset:1px}
 .foot-by{display:block;margin-top:.7em;font-size:14px;letter-spacing:.02em}.foot-by b{font-weight:500;color:var(--ink-2)}
 
 /* ---------- presenter controls ---------- */
-.hud,.pbar{display:none}
-.lecture .hud{display:flex}
+.pbar{display:none}
 .lecture .pbar{display:block}
-.hud{position:fixed;left:50%;bottom:14px;z-index:80;align-items:center;gap:4px;padding:7px 8px;border-radius:14px;max-width:calc(100vw - 20px);
-  background:color-mix(in srgb,var(--surface) 94%,transparent);border:1px solid var(--rule);box-shadow:0 14px 40px -12px rgba(0,0,0,.55);
-  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--f-mono);font-size:13px;color:var(--ink-2);
-  opacity:0;pointer-events:none;transform:translate(-50%,14px);transition:opacity .25s,transform .25s}
-.lecture.show-ui .hud{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
-.hud button{border:1px solid transparent;background:none;color:var(--ink-2);font-family:var(--f-mono);font-size:13px;padding:7px 10px;border-radius:9px;cursor:pointer;white-space:nowrap}
-.hud button:hover{background:var(--surface-2);color:var(--ink)}
-.hud .nav-big{font-size:17px;padding:6px 14px;border-color:var(--rule)}
-.hud-mid{display:flex;flex-direction:column;gap:4px;min-width:230px;max-width:380px;padding:0 8px}
-.hud-title{font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hud-title span{color:var(--you)}
-.hud-pace{font-size:11px;color:var(--ink-3);white-space:nowrap}
-.hud-pace b{font-weight:500;color:var(--ink-2)}
-.hud-pace.late b{color:var(--you)}
-.hud-sep{width:1px;height:24px;background:var(--rule);margin:0 4px}
-.hud button[aria-pressed="true"].tog{color:var(--you)}
+.pn-tools{margin-left:auto;flex:none;display:flex;align-items:center;gap:2px}
+.partnav .pn-tools button{padding:3px 9px;border:1px solid transparent;border-radius:7px;color:var(--ink-3)}
+.partnav .pn-tools button:hover{color:var(--ink);background:var(--surface-2)}
+.partnav .pn-tools button[aria-pressed="true"].tog{color:var(--you)}
+.partnav .pn-tools #hClock.late{color:var(--you)}
+.partnav .pn-tools .pn-exit{border-color:var(--rule);color:var(--ink-2);margin-left:6px}
+.partnav .pn-tools .pn-exit:hover{border-color:var(--you);color:var(--ink)}
+@media (max-width:1400px){.partnav button[data-part]:not(.cur) span{display:none}}
 .pbar{position:fixed;left:0;bottom:0;height:4px;width:100%;background:var(--you);transform-origin:0 50%;transform:scaleX(0);z-index:79;transition:transform .4s}
 .lecture.hide-cursor,.lecture.hide-cursor *{cursor:none!important}
 .blackout{position:fixed;inset:0;background:#000;z-index:95;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -506,7 +497,7 @@ html .pcard.asst{--spc:227,169,75;--spk:.16}
 /* ---------- motion off / print ---------- */
 .motion-off *,.motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important}
 @media print{
-  .topbar,.hud,.pbar,.overlay,.blackout,.drift,.partnav,.tclock,.timers{display:none!important}
+  .topbar,.pbar,.overlay,.blackout,.drift,.partnav,.tclock,.timers{display:none!important}
   [data-step]{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}
   .slide{break-inside:avoid}
 }
@@ -789,20 +780,15 @@ html .pcard.asst{--spc:227,169,75;--spk:.16}
   <button type="button" id="tcStop">Stop</button>
 </div>
 
-<!-- presenter controls: appear when the mouse moves, vanish while she talks -->
-<div class="hud" id="hud" role="toolbar" aria-label="Presenter controls">
-  <button class="nav-big" type="button" id="hPrev" aria-label="Back">◀</button>
-  <div class="hud-mid"><div class="hud-title" id="hTitle"></div><div class="hud-pace" id="hPace"></div></div>
-  <button class="nav-big" type="button" id="hNext" aria-label="Next">▶</button>
-  <span class="hud-sep"></span>
+<!-- presenter controls: live in the top parts bar -->
+<span class="pn-tools" id="pnTools" role="toolbar" aria-label="Presenter controls">
   <button type="button" id="hClock" title="Session clock — click to restart">0:00</button>
   <button type="button" class="tog" id="hOpt" aria-pressed="false" title="Include the ‘if time remains’ screens">Optional off</button>
   <button type="button" data-open="contents">Plan</button>
-  <button type="button" data-motion>Motion on</button>
   <button type="button" id="hFull">Full screen</button>
   <button type="button" data-open="keys" aria-label="Keyboard shortcuts">?</button>
-  <button type="button" id="hExit">Exit</button>
-</div>
+  <button type="button" class="pn-exit" id="hExit" title="Leave presenter view (X)">Exit ✕</button>
+</span>
 <div class="pbar" id="pbar" aria-hidden="true"></div>
 <div class="blackout" id="blackout" aria-hidden="true"></div>
 <div class="sr" aria-live="polite" id="live"></div>
@@ -967,9 +953,9 @@ if(matchMedia('(hover:hover) and (pointer:fine)').matches)(function(){
 function firstOfPart(p){for(var i=0;i<N;i++)if(slides[i]._part===p&&!slides[i]._opt)return i;return -1}
 (function(){
   var pn='<span class="pn-brand">Research<i>+</i>AI</span>',tb='';
-  for(var p=1;p<=8;p++){pn+='<button type="button" data-part="'+p+'"><b>'+p+'</b>'+esc(PARTS[p].n)+'</button>';tb+='<a href="#'+slides[firstOfPart(p)].id+'" data-part="'+p+'">'+p+' · '+esc(PARTS[p].n)+'</a>'}
+  for(var p=1;p<=8;p++){pn+='<button type="button" data-part="'+p+'"><b>'+p+'</b><span>'+esc(PARTS[p].n)+'</span></button>';tb+='<a href="#'+slides[firstOfPart(p)].id+'" data-part="'+p+'">'+p+' · '+esc(PARTS[p].n)+'</a>'}
   
-  $('#partnav').innerHTML=pn;$('#tbParts').innerHTML=tb;
+  $('#partnav').innerHTML=pn;$('#tbParts').innerHTML=tb;$('#partnav').appendChild($('#pnTools'));
   $('#partnav').addEventListener('click',function(e){var b=e.target.closest('[data-part]');if(b&&lecture)go(firstOfPart(+b.getAttribute('data-part')),0)});
 })();
 function markParts(p){
@@ -1005,12 +991,9 @@ var clockStart=+(store.get('rai3.clock')||0)||0,clockT;
 if(clockStart&&Date.now()-clockStart>3*3600*1000)clockStart=0;
 function elapsed(){return clockStart?(Date.now()-clockStart)/1000:0}
 function hud(){
-  var s=slides[cur],m=maxStep(s),p=s._part;
-  $('#hTitle').innerHTML='<span>'+'Part '+p+'</span> · '+esc(s.getAttribute('data-title'))+(m?'  ·  beat '+step+'/'+m:'');
-  if(p<=8){var late=clockStart&&elapsed()/60>START[p+1];
-    $('#hPace').innerHTML='Plan for Part '+p+': <b>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</b> ('+PARTS[p].min+' min)';
-    $('#hPace').classList.toggle('late',!!late);
-  }else $('#hPace').textContent='';
+  var s=slides[cur],p=s._part;
+  var late=p<=8&&clockStart&&elapsed()/60>START[p+1];$('#hClock').classList.toggle('late',!!late);
+  $('#hClock').title='Session clock — click to restart'+(p<=8?' · Plan for Part '+p+': '+fmt(START[p]*60)+'–'+fmt(START[p+1]*60):'');
   var total=0,done=0;slides.forEach(function(x,j){if(x._opt&&!withOptional)return;var mm=maxStep(x)+1;total+=mm;if(j<cur)done+=mm;else if(j===cur)done+=step+1});
   $('#pbar').style.transform='scaleX('+(done/total).toFixed(4)+')';
 }
@@ -1044,11 +1027,10 @@ function toggleFull(force){
 function setBlack(on){black=on;$('#blackout').classList.toggle('on',on)}
 var uiT;
 function showUI(){root.classList.add('show-ui');root.classList.remove('hide-cursor');clearTimeout(uiT);
-  uiT=setTimeout(function(){if(!$('#hud').matches(':hover')){root.classList.remove('show-ui');root.classList.add('hide-cursor')}},2400)}
+  uiT=setTimeout(function(){if(!$('#partnav').matches(':hover')){root.classList.remove('show-ui');root.classList.add('hide-cursor')}},2400)}
 addEventListener('mousemove',function(){if(lecture)showUI()},{passive:true});
 addEventListener('resize',function(){if(lecture)fit()});
 document.addEventListener('fullscreenchange',function(){if(lecture)fit()});
-$('#hPrev').addEventListener('click',prev);$('#hNext').addEventListener('click',next);
 $('#hFull').addEventListener('click',function(){toggleFull()});
 $('#hExit').addEventListener('click',exitLecture);
 $('#presentBtn').addEventListener('click',function(){enterLecture(true)});

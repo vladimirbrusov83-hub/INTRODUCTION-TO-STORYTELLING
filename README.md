@@ -22,7 +22,6 @@ The central question: **when does AI support your thinking, and when does it rep
 | 7 | Responsible-use checklist |
 | 8 | 3-line exit ticket |
 | | Thank you · Questions |
-| | After class: keep going (UVA Library links) |
 
 ## How to use it
 
@@ -37,7 +36,7 @@ Open `index.html` in any modern browser. There is no build step and nothing to i
 | → · Page Down · Space | Next beat (clicker forward) |
 | ← · Page Up | Back one beat |
 | T | Start / stop the activity timer on this screen |
-| 1–8 · 9 | Jump to Part 1–8 · after class |
+| 1–8 | Jump to Part 1–8 |
 | R | Show the rest of this screen at once |
 | O | Include / skip the "if time remains" screens |
 | C | Session plan: jump to any screen |

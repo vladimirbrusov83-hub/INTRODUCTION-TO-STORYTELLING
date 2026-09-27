@@ -366,32 +366,10 @@ html:not(.lecture) .s-hero{min-height:calc(100svh - 60px);display:grid;place-ite
 .thanks span{display:block;font-size:.5em;color:var(--ink-3);margin-top:.3em}
 
 /* ---------- AFTER CLASS ---------- */
-.after{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:1.4em;align-items:start;margin-top:.6em}
-.xr{padding:1em 1.2em}
-.xr textarea{width:100%;font:inherit;font-size:.86em;color:var(--ink);background:var(--bg-2);border:1px solid var(--rule);border-radius:var(--radius);padding:.5em .7em;min-height:5.5em;resize:vertical;line-height:1.45}
-.lecture .xr textarea{height:4.6em;min-height:0}
 textarea:focus,input:focus{outline:3px solid var(--you);outline-offset:1px}
 .btn-row{display:flex;gap:.5em;flex-wrap:wrap;margin-top:.5em;align-items:center}
 .btn{font-family:var(--f-mono);font-size:.74em;letter-spacing:.08em;text-transform:uppercase;padding:.6em 1em;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer}
 .btn.ghost{background:transparent;color:var(--ink)}
-.xr-body{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:1em;margin-top:.6em}
-.xr-out{padding:.6em .8em;border:1px dashed var(--rule);border-radius:var(--radius);white-space:pre-wrap;line-height:1.6;font-size:.84em;min-height:3em;max-height:10em;overflow:auto}
-.xr-out:empty::before{content:"Your X-rayed text will appear here.";color:var(--ink-3);font-style:italic}
-mark.xr{background:linear-gradient(transparent 58%,var(--mark) 58%);color:inherit;border-bottom:2px solid var(--you);padding:0 1px}
-mark.xr sup{font-family:var(--f-mono);font-size:.62em;color:var(--you);margin-left:2px}
-.xr-list{list-style:none;margin:0;padding:0;display:grid;gap:.4em;max-height:10em;overflow:auto;font-size:.84em}
-.xr-list li{display:grid;grid-template-columns:1.3em 1fr;gap:.1em .4em;padding-bottom:.4em;border-bottom:1px dashed var(--rule)}
-.xr-list b{font-family:var(--f-mono);font-weight:500;color:var(--you)}
-.xr-list .mach{grid-column:2;font-size:.9em}
-.xr-list .hand{grid-column:2;font-size:1.2em}
-.xr-sum{font-size:.8em;color:var(--ink-2);margin:0 0 .4em}
-.helplist{display:grid;gap:.5em}
-.lecture .helplist a{padding:.5em .85em}
-.lecture .helplist span{font-size:.74em}
-.helplist a{display:block;padding:.65em .9em;text-decoration:none;transition:border-color .25s,transform .25s}
-.helplist a:hover{border-color:var(--you);transform:translateX(3px)}
-.helplist b{display:block;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.05em;line-height:1.15}
-.helplist span{display:block;font-size:.8em;color:var(--ink-2)}
 .foot{border-top:1px solid var(--rule);padding:40px var(--gutter) 56px;font-size:15px;color:var(--ink-3);text-align:center}
 .foot-by{display:block;margin-top:.7em;font-size:14px;letter-spacing:.02em}.foot-by b{font-weight:500;color:var(--ink-2)}
 
@@ -490,7 +468,7 @@ html:not(.lecture) .slide h2.disp.rv.rv-in{background-size:4.2rem 2px}
 html .card{--spc:233,239,242;--spk:.10;transition:--spa .35s ease,border-color .35s,box-shadow .35s,transform .35s;
   background:radial-gradient(420px circle at var(--sx,50%) var(--sy,50%),rgba(var(--spc),calc(var(--spa) * var(--spk))),transparent 62%),linear-gradient(180deg,rgba(232,240,243,.06),rgba(232,240,243,.025))}
 html .card.spot-on{--spa:1;border-color:rgba(var(--spc),.38)}
-html .library.card,html .remember.card,html .to.card,html .after .card,html .question.card,html .checklist .card,html .ticket .card{--spc:227,169,75;--spk:.16}
+html .library.card,html .remember.card,html .to.card,html .question.card,html .checklist .card,html .ticket .card{--spc:227,169,75;--spk:.16}
 html .pcard.subs,html .note.card,html .scard[data-kind="subs"],html .scard[data-kind="risk"]{--spc:63,208,198;--spk:.14}
 html .pcard.asst{--spc:227,169,75;--spk:.16}
 
@@ -498,8 +476,8 @@ html .pcard.asst{--spc:227,169,75;--spk:.16}
 @media (max-width:1560px){.tb-parts{display:none}}
 @media (max-width:980px){
   html:not(.lecture) .prompts,html:not(.lecture) .lab-foot,html:not(.lecture) .plists,html:not(.lecture) .distinction,html:not(.lecture) .claim-foot,
-  html:not(.lecture) .lib-row,html:not(.lecture) .revise,html:not(.lecture) .rank-foot,html:not(.lecture) .close-words,html:not(.lecture) .after,
-  html:not(.lecture) .xr-body,html:not(.lecture) .cind{grid-template-columns:1fr}
+  html:not(.lecture) .lib-row,html:not(.lecture) .revise,html:not(.lecture) .rank-foot,html:not(.lecture) .close-words,
+  html:not(.lecture) .cind{grid-template-columns:1fr}
   html:not(.lecture) .flow5,html:not(.lecture) .route4,html:not(.lecture) .notes,html:not(.lecture) .rank,html:not(.lecture) .ticket,html:not(.lecture) .checks5{grid-template-columns:1fr 1fr}
   html:not(.lecture) .flow5 li::after,html:not(.lecture) .route4 li::after{display:none}
   html:not(.lecture) .revise .arr{transform:rotate(90deg);justify-self:center}
@@ -790,31 +768,6 @@ html .pcard.asst{--spc:227,169,75;--spk:.16}
   </div>
 </section>
 
-<!-- ============ AFTER CLASS ============ -->
-<section class="slide" id="after" data-part="9" data-title="After class: keep going">
-  <div class="slide-in">
-    <p class="kicker">After class</p>
-    <h2 class="disp t-l h-dense">Keep going on your own</h2>
-    <div class="after">
-      <div class="xr card">
-        <span class="label">Claim X-ray · nothing you paste leaves this page</span>
-        <p class="small" style="margin:0 0 .6em;color:var(--ink-2)">Paste an AI answer. The X-ray marks phrasing that often hides a claim (“universally”, “scholars agree”, “the original”, broad groups, dates) and gives you the question to ask. It doesn’t know what’s true; the checking is yours.</p>
-        <label class="sr" for="xrIn">Paste an AI answer</label>
-        <textarea id="xrIn" placeholder="Paste an AI answer here."></textarea>
-        <div class="btn-row"><button class="btn" id="xrGo" type="button">X-ray it</button><button class="btn ghost" id="xrClear" type="button">Clear</button></div>
-        <div class="xr-body"><div class="xr-out" id="xrOut" aria-live="polite"></div><div><p class="xr-sum" id="xrSummary">Every marked phrase gets a number and a question here.</p><ol class="xr-list" id="xrList"></ol></div></div>
-      </div>
-      <div class="helplist">
-        <span class="label">Library help</span>
-        <a class="card" href="https://www.library.virginia.edu/askalibrarian" target="_blank" rel="noopener"><b>Ask a Librarian</b><span>Email, call or text UVA Library, or stop by.</span></a>
-        <a class="card" href="https://www.library.virginia.edu/services/1-on-1-help" target="_blank" rel="noopener"><b>One-on-one help</b><span>Book time with a librarian for your topic or search.</span></a>
-        <a class="card" href="https://search.lib.virginia.edu/" target="_blank" rel="noopener"><b>Virgo</b><span>UVA Library’s catalog.</span></a>
-        <a class="card" href="https://guides.lib.virginia.edu/az.php" target="_blank" rel="noopener"><b>Databases A–Z</b><span>Including JSTOR and MLA International Bibliography.</span></a>
-        <a class="card" href="https://genai.provost.virginia.edu/guidance-for-faculty-students" target="_blank" rel="noopener"><b>UVA guidance on generative AI</b><span>For students, including how to acknowledge AI use.</span></a>
-      </div>
-    </div>
-  </div>
-</section>
 </main>
 <footer class="foot">Made for a library instruction session in Shannon Library, University of Virginia, for <i>Introduction to Storytelling Across Cultures</i>.<span class="foot-by">Created by <b>Yulia Brusova</b> · © 2026 Yulia Brusova. All rights reserved.</span></footer>
 
@@ -857,7 +810,7 @@ html .pcard.asst{--spc:227,169,75;--spk:.16}
       <dt><kbd>→</kbd> <kbd>Page Down</kbd> <kbd>Space</kbd></dt><dd>Next beat (clicker forward)</dd>
       <dt><kbd>←</kbd> <kbd>Page Up</kbd></dt><dd>Back one beat (clicker back)</dd>
       <dt><kbd>T</kbd></dt><dd>Start the next activity timer on this screen (again to stop)</dd>
-      <dt><kbd>1</kbd>–<kbd>8</kbd></dt><dd>Jump to Part 1–8 · <kbd>9</kbd> after class</dd>
+      <dt><kbd>1</kbd>–<kbd>8</kbd></dt><dd>Jump to Part 1–8</dd>
       <dt><kbd>R</kbd></dt><dd>Show the rest of this screen at once</dd>
       <dt><kbd>O</kbd></dt><dd>Include / skip the “if time remains” screens</dd>
       <dt><kbd>C</kbd></dt><dd>Session plan: jump to any screen</dd>
@@ -896,8 +849,7 @@ var PARTS=[null,
   {n:'Verify',      min:4},
   {n:'Spectrum',    min:6},
   {n:'Checklist',   min:1.5},
-  {n:'Exit ticket', min:2.5},
-  {n:'After class', min:0}];
+  {n:'Exit ticket', min:2.5}];
 var START=[0,0];for(var pi=1;pi<PARTS.length;pi++)START[pi+1]=START[pi]+PARTS[pi].min;
 
 var slides=$$('.slide'),N=slides.length;
@@ -1005,7 +957,7 @@ function firstOfPart(p){for(var i=0;i<N;i++)if(slides[i]._part===p&&!slides[i]._
 (function(){
   var pn='<span class="pn-brand">Research<i>+</i>AI</span>',tb='';
   for(var p=1;p<=8;p++){pn+='<button type="button" data-part="'+p+'"><b>'+p+'</b>'+esc(PARTS[p].n)+'</button>';tb+='<a href="#'+slides[firstOfPart(p)].id+'" data-part="'+p+'">'+p+' · '+esc(PARTS[p].n)+'</a>'}
-  pn+='<span class="pn-gap"></span><button type="button" data-part="9">After class</button>';
+  
   $('#partnav').innerHTML=pn;$('#tbParts').innerHTML=tb;
   $('#partnav').addEventListener('click',function(e){var b=e.target.closest('[data-part]');if(b&&lecture)go(firstOfPart(+b.getAttribute('data-part')),0)});
 })();
@@ -1043,7 +995,7 @@ if(clockStart&&Date.now()-clockStart>3*3600*1000)clockStart=0;
 function elapsed(){return clockStart?(Date.now()-clockStart)/1000:0}
 function hud(){
   var s=slides[cur],m=maxStep(s),p=s._part;
-  $('#hTitle').innerHTML='<span>'+(p<=8?'Part '+p:'After class')+'</span> · '+esc(s.getAttribute('data-title'))+(m?'  ·  beat '+step+'/'+m:'');
+  $('#hTitle').innerHTML='<span>'+'Part '+p+'</span> · '+esc(s.getAttribute('data-title'))+(m?'  ·  beat '+step+'/'+m:'');
   if(p<=8){var late=clockStart&&elapsed()/60>START[p+1];
     $('#hPace').innerHTML='Plan for Part '+p+': <b>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</b> ('+PARTS[p].min+' min)';
     $('#hPace').classList.toggle('late',!!late);
@@ -1162,44 +1114,12 @@ $('#etCopy').addEventListener('click',function(){
   try{if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(function(){msg.textContent='Copied.'},fb);else fb()}catch(e2){fb()}
 });
 
-/* ---------- Claim X-ray (after class) ---------- */
-var XR=[
-  {re:/\b(?:scholars|experts|historians|critics|researchers|academics|folklorists|many people|most people)\s+(?:generally\s+|widely\s+|broadly\s+|largely\s+)?(?:agree|believe|argue|say|suggest|note|consider|maintain|view)\b/gi,q:'Which ones? Name one, and find where they said it.'},
-  {re:/\b(?:it\s+is|it's|is|are|was|were)\s+(?:widely|generally|commonly|often|universally|largely)\s+(?:known|believed|accepted|thought|agreed|regarded|considered|recognized|recognised|seen)\b|\b(?:widely|generally|commonly|universally)\s+(?:regarded|considered|seen|accepted|believed|known|recognized|recognised)\b/gi,q:'Known by whom? Says who?'},
-  {re:/\bthe\s+(?:original|first|earliest|true|real|authentic|definitive)(?:\s+(?:version|story|text|source|tale|poem|ballad|legend|form|account))?\b/gi,q:'Is there one? Who decided it came first?'},
-  {re:/\b(?:symboli[sz]es|symboli[sz]ing|represents|reflects|embodies|highlights|underscores|serves\s+as|is\s+a\s+symbol\s+of|stands\s+for|reminds\s+us|celebrates|teaches\s+us|functions?\s+as)\b/gi,q:'That’s one reading. Whose? What’s another?'},
-  {re:/\b(?:always|never|universally|universal|undeniably|undoubtedly|clearly|certainly|definitively|without\s+(?:a\s+)?doubt|timeless|in\s+all\s+cultures)\b/gi,q:'Everywhere according to whom? Look for the exception.'},
-  {re:/\b(?:according\s+to(?:\s+(?:a|one|recent|new)(?:\s+recent)?\s+(?:study|survey|report|paper))?|studies\s+(?:show|suggest|have\s+shown)|research\s+(?:shows|suggests|has\s+shown)|a\s+(?:recent\s+)?study|evidence\s+(?:shows|suggests))\b/gi,q:'Find it. Does it exist, and does it say this?'},
-  {re:/\b(?:colonized|indigenous|western|eastern|african|asian|non-western|traditional)\s+(?:cultures|societies|peoples|traditions|communities)\b/gi,q:'Which ones? Which histories? Which time periods?'},
-  {re:/\b(?:1[0-9]{3}|20[0-3][0-9])s?\b|\b(?:\d{1,2}(?:st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth)[\s-]+century\b/gi,q:'Checkable. Is it documented, or estimated, and by whom?'},
-  {re:/“[^”]{3,240}”|"[^"\n]{3,240}"/g,q:'Who said this? Find the original.'}
-];
-var xrIn=$('#xrIn'),xrOut=$('#xrOut'),xrList=$('#xrList'),xrSum=$('#xrSummary');
-function runXray(){
-  var text=xrIn.value;store.set('rai3.xray',text);
-  if(!text.trim()){xrOut.innerHTML='';xrList.innerHTML='';xrSum.textContent='Every marked phrase gets a number and a question here.';return}
-  var hits=[];
-  XR.forEach(function(p,pi){p.re.lastIndex=0;var m;while((m=p.re.exec(text))){hits.push({s:m.index,e:m.index+m[0].length,pi:pi});if(!m[0].length)p.re.lastIndex++}});
-  hits.sort(function(a,b){return a.s-b.s||(b.e-b.s)-(a.e-a.s)});
-  var kept=[],end=-1;hits.forEach(function(h){if(h.s>=end){kept.push(h);end=h.e}});
-  var out='',pos=0,list='';
-  kept.forEach(function(h,n){var p=XR[h.pi],frag=text.slice(h.s,h.e);
-    out+=esc(text.slice(pos,h.s))+'<mark class="xr">'+esc(frag)+'<sup>'+(n+1)+'</sup></mark>';pos=h.e;
-    list+='<li><b>'+(n+1)+'</b><span class="mach">'+esc(frag.length>60?frag.slice(0,57)+'…':frag)+'</span><span class="hand">'+esc(p.q)+'</span></li>';
-  });
-  out+=esc(text.slice(pos));xrOut.innerHTML=out;xrList.innerHTML=list;
-  xrSum.textContent=kept.length?(kept.length+(kept.length===1?' phrase':' phrases')+' worth a question. A mark means “check me,” not “wrong.” Unmarked sentences can be wrong too.'):'Nothing matched the usual patterns. That doesn’t make it right: read it for names, dates and claims anyway.';
-}
-$('#xrGo').addEventListener('click',runXray);
-$('#xrClear').addEventListener('click',function(){xrIn.value='';runXray();xrIn.focus()});
-var savedX=store.get('rai3.xray');if(savedX){xrIn.value=savedX;runXray()}
-
 /* ---------- plan overlay + keys ---------- */
 function buildContents(){
   var html='';
-  for(var p=1;p<=9;p++){
+  for(var p=1;p<=8;p++){
     var items='';slides.forEach(function(s,i){if(s._part===p)items+='<button type="button" data-go="'+i+'" class="'+(lecture&&i===cur?'cur':'')+'"><i>'+(i+1)+'</i>'+esc(s.getAttribute('data-title'))+'</button>'});
-    html+='<div class="ov-ch"><h3><kbd>'+p+'</kbd>'+esc(p<=8?'Part '+p+' · '+PARTS[p].n:'After class')+(p<=8?'<em>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</em>':'')+'</h3>'+items+'</div>';
+    html+='<div class="ov-ch"><h3><kbd>'+p+'</kbd>'+esc('Part '+p+' · '+PARTS[p].n)+'<em>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</em>'+'</h3>'+items+'</div>';
   }
   $('#ovGrid').innerHTML=html;
 }
@@ -1216,7 +1136,7 @@ $('#ovGrid').addEventListener('click',function(e){var b=e.target.closest('[data-
 $('#resetClass').addEventListener('click',function(){
   ['rai3.clock','rai3.pos','rai3.opt','rai3.rank','rai3.xray','rai3.ck1','rai3.ck2','rai3.ck3','rai3.ck4','rai3.ck5','rai3.ck6','rai3.et1','rai3.et2','rai3.et3','rai.spec','rai.xray'].forEach(function(k){try{localStorage.removeItem(k)}catch(e){}});
   $$('.checklist input').forEach(function(c){c.checked=false});$$('.ticket textarea').forEach(function(t){t.value=''});
-  xrIn.value='';runXray();rankEl.classList.remove('revealed');preReveal=null;setOrder(['1','2','3','4'],false);
+  rankEl.classList.remove('revealed');preReveal=null;setOrder(['1','2','3','4'],false);
   withOptional=false;optLabel();$$('.timer-btn').forEach(function(b){b.classList.remove('used')});stopTimer();
   closeOv();
   if(lecture){slides.forEach(function(s){applySteps(s,0,false)});go(0,0);startClock(true)}else{slides[0].scrollIntoView()}
@@ -1245,7 +1165,7 @@ document.addEventListener('keydown',function(e){
     else if(k==='ArrowLeft'||k==='ArrowUp'||k==='Backspace'){e.preventDefault();prev()}
     else if(k==='Home'){e.preventDefault();go(0,0)}
     else if(k==='End'){e.preventDefault();go(N-1,0)}
-    else if(/^[1-9]$/.test(k)){e.preventDefault();jumpPart(+k)}
+    else if(/^[1-8]$/.test(k)){e.preventDefault();jumpPart(+k)}
     else if(k==='t'||k==='T'){timerKey()}
     else if(k==='r'||k==='R'){revealRest()}
     else if(k==='o'||k==='O'){toggleOpt()}

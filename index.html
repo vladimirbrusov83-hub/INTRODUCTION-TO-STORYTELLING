@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Research + AI</title>
+<meta name="description" content="Using AI Without Outsourcing Your Thinking: a guided workspace for Introduction to Storytelling Across Cultures, Shannon Library, University of Virginia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,400..600&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap">
+<script>
+/* Decided before first paint: design version (A/B/C), presenter mode, motion, fonts.
+   Hidden "step" states are switched on here; if the main script fails to report in
+   within 2.5s they are switched off again, so every word stays readable (fail-open). */
+(function(){
+  var d=document.documentElement,m=null,mode=null;
+  try{m=localStorage.getItem('rai2.motion');mode=localStorage.getItem('rai3.mode')}catch(e){}
+  var r=false;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  if(m==='off'||(m!=='on'&&r))d.classList.add('motion-off');
+  if(/^#(present|\/)/.test(location.hash)||(mode==='lecture'&&innerWidth>=900))d.classList.add('lecture');
+  d.classList.add('steps');
+  setTimeout(function(){if(!window.RAI_OK)d.classList.remove('steps')},2500);
+})();
+</script>
+<style>
+/* =====================================================================
+   USING AI WITHOUT OUTSOURCING YOUR THINKING — the session's shared workspace.
+   Follows the teaching script part by part (Parts 1–8). Not a slide deck:
+   one workspace screen per part, with reveals only where the script holds an
+   answer until after discussion, and highlights where the speaker walks a list.
+   • Reading view (default): one page students scroll and come back to.
+   • Presenter view (P / Present): each part on a fixed 1600×900 canvas scaled to
+     any projector; clicker = next beat; Parts 1–8 bar always visible.
+   Colour logic: --you = the student's own thinking (assistance keeps it here),
+   --machine = what the tool produces (substitution hands work to it),
+   --schol = library and scholarship.
+   ===================================================================== */
+html{
+  color-scheme:dark;
+  --bg:#111926;--bg-2:#1a2331;--surface:rgba(232,240,243,.045);--surface-2:rgba(232,240,243,.08);
+  --ink:#e9eff2;--ink-2:#c3cfd6;--ink-3:#93a3ad;
+  --rule:rgba(233,239,242,.16);--rule-2:rgba(233,239,242,.08);
+  --you:#f2c983;--you-soft:rgba(227,169,75,.16);
+  --machine:#3fd0c6;--machine-soft:rgba(63,208,198,.14);
+  --schol:#9dbcf0;--schol-soft:rgba(90,140,210,.16);
+  --mark:rgba(227,169,75,.32);
+  --shadow:0 18px 44px -22px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05);
+  --radius:14px;
+  --f-display:"Fraunces",Georgia,serif;
+  --f-body:"Spectral",Georgia,serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --d-weight:450;--d-track:-.01em;--d-lh:1.05;--em-style:italic;--d-soft:450;
+  --drift-op:.09;
+}
+:root{--f-hand:"Caveat","Bradley Hand","Segoe Print",cursive;--gutter:clamp(16px,5vw,64px)}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.5;overflow-x:clip;-webkit-font-smoothing:antialiased;transition:background-color .4s,color .4s}
+a{color:inherit}
+button{font:inherit;color:inherit}
+::selection{background:var(--mark)}
+:focus-visible{outline:3px solid var(--you);outline-offset:3px}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* voices */
+.mach{font-family:var(--f-mono);color:var(--machine)}
+.hand{font-family:var(--f-hand);font-weight:700;color:var(--you);line-height:1}
+
+/* ---------- top bar (reading view) ---------- */
+.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px;padding:0 var(--gutter);
+  background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule-2)}
+.brand{font-family:var(--f-display);font-weight:var(--d-weight);font-size:22px;letter-spacing:var(--d-track);text-decoration:none;white-space:nowrap}
+.brand b{color:var(--you);font-weight:inherit}
+.tb-parts{display:flex;gap:2px}
+.tb-parts a{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);text-decoration:none;padding:6px 8px;border-radius:6px;white-space:nowrap}
+.tb-parts a:hover{color:var(--ink);background:var(--surface)}
+.tb-parts a.on{color:var(--ink);background:var(--you-soft)}
+.tb-tools{display:flex;align-items:center;gap:8px}
+.chip-btn{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--rule);background:var(--surface);color:var(--ink-2);padding:9px 13px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.chip-btn:hover{border-color:var(--you);color:var(--ink)}
+.chip-btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip-btn.primary:hover{background:var(--you);border-color:var(--you);color:#111}
+
+/* ---------- screens: reading view ---------- */
+.deck{position:relative}
+.slide{--fs:clamp(16px,.9rem + .36vw,20px);font-size:var(--fs);position:relative;padding:clamp(60px,10vh,120px) var(--gutter);scroll-margin-top:60px}
+.slide-in{position:relative;max-width:1200px;margin:0 auto}
+html:not(.lecture) .slide+.slide{border-top:1px solid var(--rule-2)}
+.only-lecture{display:none}
+.lecture .only-reading{display:none}.lecture .only-lecture{display:revert}
+
+/* ---------- screens: presenter view (fixed 1600×900 canvas, scaled) ---------- */
+html.lecture,html.lecture body{height:100%;overflow:hidden}
+.lecture .topbar,.lecture .foot{display:none}
+.lecture .deck{position:fixed;inset:0;overflow:hidden}
+.lecture .slide{position:absolute;left:50%;top:50%;width:1600px;height:900px;padding:70px 104px 46px;--fs:26px;border:0;
+  transform:translate(-50%,-50%) scale(var(--s,1));opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s linear .4s}
+.lecture .slide.current{opacity:1;visibility:visible;transition:opacity .4s ease}
+.lecture .slide-in{max-width:none;height:100%;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;transform:translateY(14px);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.lecture .slide.current .slide-in{transform:none}
+
+/* ---------- type ---------- */
+.disp{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);line-height:var(--d-lh);margin:0}
+.disp em{font-style:var(--em-style);color:var(--you)}
+.t-xl{font-size:clamp(2.2em,6vw,4em)}
+.t-l{font-size:clamp(1.9em,4.4vw,2.9em)}
+.t-m{font-size:clamp(1.35em,2.3vw,1.8em);line-height:1.18}
+.lecture .t-xl{font-size:4em}.lecture .t-l{font-size:2.9em}.lecture .t-m{font-size:1.8em}
+.lecture .h-dense{font-size:2.15em}
+.kicker{font-family:var(--f-mono);font-size:.78em;letter-spacing:.14em;text-transform:uppercase;color:var(--you);margin:0 0 .9em;display:flex;align-items:center;gap:.7em}
+.kicker::before{content:"";width:2em;height:2px;background:currentColor}
+.label{display:block;font-family:var(--f-mono);font-size:.78em;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 .5em}
+.small{font-size:.8em;color:var(--ink-3)}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow)}
+.opt-tag{display:inline-block;font-family:var(--f-mono);font-size:.9em;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);border:1px dashed var(--rule);border-radius:999px;padding:.15em .8em;margin-left:.4em}
+
+/* ---------- beat machinery ----------
+   default: hidden until its beat · write: handwriting sweeps in · hl: always visible, lit on its beat
+   none: script-driven (flags, reorders)                                                              */
+.steps [data-step]{transition:opacity .55s cubic-bezier(.2,.7,.2,1),transform .55s cubic-bezier(.2,.7,.2,1),filter .55s}
+.steps [data-step]:not(.on):not([data-fx]){opacity:0;transform:translateY(.45em);filter:blur(3px)}
+.steps [data-step] .write-late{transition:clip-path .9s cubic-bezier(.6,0,.3,1) .45s;display:inline-block}
+.steps [data-step]:not(.on) .write-late{clip-path:inset(-30% 100% -30% -3%)}
+.steps [data-step].on .write-late{clip-path:inset(-30% -4% -30% -4%)}
+[data-fx="hl"]{transition:border-color .35s,background-color .35s,transform .35s,box-shadow .35s}
+.lecture [data-fx="hl"].now{border-color:var(--you)!important;background:color-mix(in srgb,var(--you) 12%,var(--surface))!important;transform:translateY(-4px);box-shadow:0 0 0 4px var(--you-soft),var(--shadow)}
+.flag{background:none;color:inherit;border-bottom:3px solid transparent;transition:background .4s,border-color .4s;padding:0 .05em}
+.steps .flag.on,html:not(.steps) .flag{background:linear-gradient(transparent 55%,var(--mark) 55%);border-bottom-color:var(--you)}
+.instant,.instant *,.instant>*{transition:none!important}
+
+/* ---------- parts bar (presenter view): reads as the site's own navigation ---------- */
+.partnav{display:none}
+.lecture .partnav{display:flex;position:fixed;top:0;left:0;right:0;z-index:70;height:34px;align-items:stretch;justify-content:center;gap:2px;padding:0 12px;
+  background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--rule-2);font-family:var(--f-mono);font-size:12px}
+.partnav button{border:0;background:none;color:var(--ink-3);padding:0 12px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;border-bottom:2px solid transparent;font-family:var(--f-mono);font-size:12px}
+.partnav button b{font-weight:500;color:var(--ink-3)}
+.partnav button:hover{color:var(--ink)}
+.partnav button.done{color:var(--ink-2)}
+.partnav button.cur{color:var(--ink);border-bottom-color:var(--you)}
+.partnav button.cur b{color:var(--you)}
+.partnav .pn-brand{color:var(--ink-2);margin-right:auto;padding-right:14px;display:flex;align-items:center;font-family:var(--f-display);font-weight:var(--d-weight);font-size:14px;letter-spacing:var(--d-track)}
+.partnav .pn-brand i{color:var(--you);font-style:normal;padding:0 .2em}
+.partnav .pn-gap{margin-left:auto}
+
+/* ---------- activity timer (big enough for the back row) ---------- */
+.timers{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.timer-btn{display:inline-flex;align-items:center;gap:.5em;font-family:var(--f-mono);font-size:.78em;letter-spacing:.04em;padding:.55em 1em;border-radius:999px;border:1.5px solid var(--you);background:transparent;color:var(--ink);cursor:pointer;white-space:nowrap}
+.timer-btn::before{content:"";width:0;height:0;border-left:.6em solid var(--you);border-top:.38em solid transparent;border-bottom:.38em solid transparent}
+.timer-btn.used{border-color:var(--rule);color:var(--ink-3)}
+.timer-btn.used::before{border-left-color:var(--ink-3)}
+.tclock{position:fixed;right:22px;top:48px;z-index:75;display:none;align-items:center;gap:14px;padding:12px 16px 12px 12px;border-radius:18px;background:color-mix(in srgb,var(--surface) 95%,transparent);border:1px solid var(--rule);box-shadow:0 18px 40px -16px rgba(0,0,0,.5);font-family:var(--f-mono)}
+.tclock.on{display:flex}
+.tclock svg{width:78px;height:78px;transform:rotate(-90deg)}
+.tclock circle{fill:none;stroke-width:8}
+.tclock .bg{stroke:var(--rule)}
+.tclock .fg{stroke:var(--you);stroke-linecap:round;transition:stroke-dashoffset .25s linear}
+.tclock .t-num{font-size:34px;color:var(--ink);line-height:1}
+.tclock .t-lab{font-size:13px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:4px;max-width:14em}
+.tclock button{border:1px solid var(--rule);background:none;color:var(--ink-3);border-radius:8px;padding:4px 8px;cursor:pointer;font-family:var(--f-mono);font-size:12px;margin-left:6px}
+.tclock.done{animation:pulse 1s ease-in-out 3}
+.tclock.done .t-num{color:var(--you)}
+@keyframes pulse{50%{box-shadow:0 0 0 10px var(--you-soft)}}
+
+/* ---------- PART 1 · hero ---------- */
+.s-hero .slide-in{text-align:center;align-items:center}
+html:not(.lecture) .s-hero{min-height:calc(100svh - 60px);display:grid;place-items:center;overflow:hidden}
+.drift{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.lecture .drift{inset:-70px -104px -46px}
+.drift span{position:absolute;white-space:nowrap;font-family:var(--f-display);color:var(--ink);opacity:var(--drift-op);animation:float var(--t,18s) ease-in-out infinite alternate}
+.lecture .drift span{opacity:calc(var(--drift-op) * .7)}
+.drift span[dir="rtl"],.drift span:lang(hi),.drift span:lang(ja),.drift span:lang(ko),.drift span:lang(zh){font-family:system-ui,sans-serif}
+@keyframes float{from{transform:translate3d(0,0,0)}to{transform:translate3d(var(--dx,20px),var(--dy,-16px),0)}}
+.overline{font-family:var(--f-mono);font-size:.78em;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);line-height:1.8;margin:0 0 1em;position:relative}
+.overline span{color:var(--you);padding:0 .5em}
+.hero-title{font-size:clamp(2.5em,7vw,4.4em);line-height:.98;max-width:15em;margin:0 auto;position:relative}
+.lecture .hero-title{font-size:4.1em;max-width:17em}
+.brandline{font-family:var(--f-mono);font-size:.84em;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin:.8em 0 1.1em;position:relative}
+.brandline b{color:var(--you);font-weight:500}
+.question{position:relative;display:inline-block;max-width:36em;padding:.8em 1.6em .9em;text-align:left;border-color:color-mix(in srgb,var(--you) 50%,var(--rule))}
+.question .label{color:var(--you)}
+.question p{font-size:1.55em;line-height:1.15}
+.hero-lines{position:relative;margin-top:1.2em;display:grid;gap:.5em;justify-items:center}
+.keyline{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.65em;line-height:1.1;margin:0}
+.keyline .mach{font-weight:400;letter-spacing:-.02em;font-size:.86em}
+.keyline .hand{font-size:1.3em}
+.resp{font-size:1.05em;color:var(--ink-2);max-width:40em;margin:0}
+.resp .hand{font-size:1.35em;margin-left:.2em}
+
+/* ---------- PART 2 · the intellectual work ---------- */
+.flow5{list-style:none;margin:1em 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.3em}
+.flow5 li{position:relative;padding:.9em 1em 1em}
+.flow5 li:not(:last-child)::after{content:"→";position:absolute;right:-1.05em;top:.55em;font-family:var(--f-mono);font-size:1.1em;color:var(--ink-3)}
+.flow5 .fn{display:block;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.7em;line-height:1;margin-bottom:.35em;text-transform:uppercase}
+.flow5 .fd{display:block;font-size:.84em;color:var(--ink-2);line-height:1.38}
+.distinction{display:grid;grid-template-columns:1fr 1fr;gap:1.2em;margin-top:1.2em}
+.dcard{padding:1em 1.2em}
+.dcard .big{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.45em;line-height:1.1;margin:0 0 .35em}
+.dcard p{margin:0;font-size:.9em;color:var(--ink-2)}
+.dcard.asst{border-color:color-mix(in srgb,var(--you) 55%,var(--rule))}.dcard.asst .big{color:var(--you)}
+.dcard.subs{border-color:color-mix(in srgb,var(--machine) 55%,var(--rule))}.dcard.subs .big{color:var(--machine)}
+.discuss{margin-top:1.1em;display:flex;gap:1em;align-items:baseline;padding:.8em 1.1em;border:1.5px dashed color-mix(in srgb,var(--you) 60%,transparent);background:var(--you-soft);border-radius:var(--radius)}
+.discuss .label{margin:0;white-space:nowrap;color:var(--you)}
+.discuss p{margin:0;font-family:var(--f-display);font-weight:var(--d-soft);letter-spacing:var(--d-track);font-size:1.3em;line-height:1.2}
+
+/* ---------- PART 3 · prompt makeover lab ---------- */
+.prompts{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:1.2em;margin-top:.4em;align-items:start}
+.pcard{padding:1em 1.2em 1.1em}
+.ptag{display:inline-block;font-family:var(--f-mono);font-size:.78em;letter-spacing:.1em;text-transform:uppercase;padding:.25em .7em;border-radius:999px;margin-bottom:.6em}
+.pcard.subs .ptag{background:var(--machine-soft);color:var(--machine)}
+.pcard.asst .ptag{background:var(--you-soft);color:var(--you)}
+.ptext{font-family:var(--f-mono);font-size:.95em;line-height:1.45;margin:0;color:var(--ink)}
+.pcard.subs .ptext{font-size:1.25em}
+.boundary{transition:background .4s,box-shadow .4s}
+.steps .boundary.lit,html:not(.steps) .boundary{background:linear-gradient(transparent 55%,var(--mark) 55%);box-shadow:inset 0 -3px 0 var(--you)}
+.reveal{margin-top:.8em;padding-top:.7em;border-top:1px dashed var(--rule)}
+.reveal .label{color:var(--ink-2)}
+.chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.35em}
+.chips li{font-size:.8em;padding:.22em .7em;border-radius:999px;border:1px solid var(--rule);background:var(--bg-2);line-height:1.3}
+.pcard.subs .chips li{border-color:color-mix(in srgb,var(--machine) 45%,transparent)}
+.pcard.asst .chips li{border-color:color-mix(in srgb,var(--you) 45%,transparent)}
+.lecture .pcard.asst .chips{display:grid;grid-template-columns:1fr 1fr;gap:.35em}
+.lecture .pcard.asst .chips li{border-radius:8px;font-size:.76em}
+.lab-foot{display:grid;gap:.8em;align-content:start}
+.dq{padding:.7em 1.1em;border:1.5px dashed color-mix(in srgb,var(--you) 60%,transparent);background:var(--you-soft);border-radius:var(--radius)}
+.dq .label{color:var(--you);margin-bottom:.3em}
+.dq ol{margin:0;padding-left:1.3em;font-family:var(--f-display);font-weight:var(--d-soft);letter-spacing:var(--d-track);font-size:1.15em;line-height:1.3}
+.lecture .dq ol{font-size:1.02em}
+.lecture .pcard.asst .ptext{font-size:.9em}
+.lecture .prompts{margin-top:0}
+.lecture #part3 .pcard{padding:.85em 1.1em .95em}
+.lecture #part3 .reveal{margin-top:.6em;padding-top:.6em}
+.lecture .handed .d{font-size:.8em}
+.plists{display:grid;grid-template-columns:1.1fr .9fr;gap:1.2em;margin-top:1em}
+.plist{padding:1em 1.2em}
+.plist ul{list-style:none;margin:0;padding:0;display:grid;gap:.35em}
+.plist li{font-family:var(--f-mono);font-size:.9em;line-height:1.35;padding-left:1.3em;position:relative}
+.lecture .plist li{font-size:.8em}
+.lecture .plist ul{gap:.25em}
+.lecture .strategy{max-width:none}
+.plist.ok .label{color:var(--you)}.plist.ok li::before{content:"✓";position:absolute;left:0;color:var(--you)}
+.plist.risk .label{color:var(--machine)}.plist.risk li::before{content:"✕";position:absolute;left:0;color:var(--machine)}
+.strategy{margin:.8em 0 0;color:var(--ink-2);max-width:62ch}
+.keyq{margin:1em 0 0;padding:.8em 1.2em;border-radius:var(--radius);border:2px solid var(--you);text-align:center;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.5em;line-height:1.15}
+.cind{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:1.2em;margin-top:1em;align-items:start}
+
+/* ---------- PART 4 · interrogating a claim ---------- */
+.claim{padding:1.2em 1.5em 1.3em;margin-top:.3em}
+.claim .label em{font-style:normal;color:var(--ink-3);text-transform:none;letter-spacing:.02em}
+.claim-text{font-size:clamp(1.5em,3.4vw,2.3em);line-height:1.22}
+.lecture .claim-text{font-size:2.3em}
+.notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1em;margin-top:1em}
+.note{padding:.8em 1em}
+.note .label{color:var(--you);font-size:.8em}
+.note p{margin:0;font-size:.95em}
+.claim-foot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:1.2em;align-items:start;margin-top:1em}
+.qs{padding:.7em 1.1em;border:1.5px dashed color-mix(in srgb,var(--you) 60%,transparent);background:var(--you-soft);border-radius:var(--radius)}
+.qs .label{color:var(--you);margin-bottom:.3em}
+.qs ul{margin:0;padding-left:1.1em;font-size:.95em}
+.flatten{margin:0;font-size:1.02em;color:var(--ink-2);align-self:center}
+.flatten .hand{display:block;font-size:2.1em;margin-bottom:.1em}
+
+/* ---------- PART 5 · verification routine + library ---------- */
+.route4{list-style:none;margin:.8em 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.1em;counter-reset:r}
+.route4 li{padding:.9em 1em 1em;position:relative;counter-increment:r}
+.route4 li:not(:last-child)::after{content:"→";position:absolute;right:-.95em;top:.6em;font-family:var(--f-mono);color:var(--ink-3)}
+.route4 .rn{display:block;font-family:var(--f-mono);font-size:.78em;color:var(--ink-3);margin-bottom:.2em}
+.route4 .rn::before{content:counter(r) " · "}
+.route4 .rw{display:block;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:.02em;font-size:1.8em;line-height:1;margin-bottom:.4em;color:var(--you)}
+.route4 p{margin:0;font-size:.9em;color:var(--ink-2)}
+.remember{margin-top:1.2em;display:grid;grid-template-columns:auto 1fr;gap:.5em 1.2em;align-items:center;padding:1em 1.3em}
+.remember .label{grid-row:1/4;margin:0;color:var(--you);align-self:start}
+.remember p{margin:0;font-size:1.1em;line-height:1.3}
+.remember p b{font-weight:600}
+.remember .mach{font-size:.92em}
+.revise{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.15fr);gap:1em;align-items:center;margin-top:.4em}
+.revise .from{padding:1em 1.2em}
+.revise .from p{margin:0;font-family:var(--f-mono);color:var(--machine);font-size:.95em;line-height:1.45;text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--you) 70%,transparent);text-decoration-thickness:2px}
+.revise .arr{font-family:var(--f-mono);font-size:1.6em;color:var(--you)}
+.revise .to{padding:1em 1.2em;border-color:color-mix(in srgb,var(--you) 55%,var(--rule))}
+.revise .to p{margin:0 0 .5em;font-family:var(--f-display);font-weight:var(--d-soft);letter-spacing:var(--d-track);font-size:1.15em;line-height:1.25}
+.revise .to p.small{font-family:var(--f-body);font-weight:400;letter-spacing:0;font-size:.8em;margin:0}
+.improves{margin:.9em 0 0;font-size:1.05em;color:var(--ink-2)}
+.improves b{color:var(--ink)}
+.lib-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:1.2em;margin-top:1em;align-items:stretch}
+.library{padding:1em 1.2em;border-color:color-mix(in srgb,var(--schol) 50%,var(--rule))}
+.library .label{color:var(--schol)}
+.library ul{margin:0;padding:0;list-style:none;display:grid;gap:.3em}
+.library li{font-size:.86em;padding-left:1.1em;position:relative}
+.library li::before{content:"";position:absolute;left:0;top:.6em;width:.45em;height:.45em;border-radius:50%;background:var(--schol)}
+.library .libnote{margin:.55em 0 0;font-size:.88em;color:var(--ink-2);font-style:italic}
+.twolines{display:grid;align-content:center;gap:.6em;padding:1em 1.2em;border:2px solid var(--you);border-radius:var(--radius)}
+.twolines p{margin:0;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.35em;line-height:1.15}
+.cite{padding:.9em 1.3em;margin-top:.7em}
+.cite p{margin:0;font-family:var(--f-mono);font-size:1.05em;line-height:1.55}
+.checks-label{margin-top:1em}
+.checks5{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.8em;counter-reset:c}
+.checks5 li{padding:.7em .9em;counter-increment:c;font-size:.88em;line-height:1.3}
+.checks5 li::before{content:counter(c);display:block;font-family:var(--f-hand);font-weight:700;font-size:1.6em;color:var(--you);line-height:1;margin-bottom:.2em}
+.verdict{margin:1.1em 0 0;display:flex;gap:1.2em;align-items:baseline;flex-wrap:wrap}
+.verdict .small{font-style:italic;max-width:40em}
+
+/* ---------- PART 6 · ranking board ---------- */
+.rank-head{display:flex;justify-content:space-between;align-items:end;gap:1em;flex-wrap:wrap}
+.lecture .rank-head{flex-wrap:nowrap}
+.lecture .rank-head .timers{flex-wrap:nowrap}
+.lecture .scard{padding:.75em .9em .85em}
+.lecture .scard .st{font-size:.76em}
+.lecture .scard .why{font-size:.72em}
+.lecture .axis{margin:.5em 0 .4em}
+.lecture .rank-foot{margin-top:.6em}
+.rank-q{max-width:26em}
+.lecture .rank-q{font-size:1.4em}
+.axis{display:flex;justify-content:space-between;align-items:center;margin:.7em 0 .45em;font-family:var(--f-hand);font-weight:700;font-size:1.35em}
+.axis span:first-child{color:var(--you)}.axis span:last-child{color:var(--machine)}
+.axis i{flex:1;height:.3em;margin:0 .8em;border-radius:999px;background:linear-gradient(90deg,var(--you),var(--machine))}
+.rank{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1em;position:relative}
+.scard{padding:.9em 1em 1em;display:flex;flex-direction:column;gap:.5em;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:border-color .3s,box-shadow .3s}
+.scard.dragging{cursor:grabbing;box-shadow:0 0 0 3px var(--you-soft),var(--shadow);z-index:3;position:relative}
+.scard .sn{display:flex;align-items:center;justify-content:space-between;gap:.5em}
+.scard .sn b{font-family:var(--f-mono);font-weight:500;font-size:.78em;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.scard .moves{display:flex;gap:.25em}
+.scard .moves button{border:1px solid var(--rule);background:var(--bg-2);border-radius:6px;width:1.7em;height:1.5em;cursor:pointer;color:var(--ink-2);font-size:.8em;line-height:1}
+.scard .st{margin:0;font-family:var(--f-mono);font-size:.8em;line-height:1.4;color:var(--ink)}
+.scard .why{margin:auto 0 0;padding-top:.5em;border-top:1px dashed var(--rule);font-size:.76em;color:var(--ink-2);display:none}
+.scard .why b{display:block;font-family:var(--f-mono);font-weight:500;font-size:.92em;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.15em}
+.rank.revealed .why{display:block}
+.scard[data-kind="assist"] .why b{color:var(--you)}
+.scard[data-kind="risk"] .why b,.scard[data-kind="subs"] .why b{color:var(--machine)}
+.rank.revealed .scard[data-kind="assist"]{border-color:color-mix(in srgb,var(--you) 55%,var(--rule))}
+.rank.revealed .scard[data-kind="subs"],.rank.revealed .scard[data-kind="risk"]{border-color:color-mix(in srgb,var(--machine) 55%,var(--rule))}
+.rank-foot{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.4em;align-items:center;margin-top:.8em}
+.handed p{margin:0}
+.handed .q{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.25em;line-height:1.15;margin-bottom:.25em}
+.handed .d{font-size:.84em;color:var(--ink-2)}
+.rank-btns{display:flex;gap:.8em;flex-wrap:wrap;align-items:center}
+.linkish{background:none;border:0;padding:0;color:var(--ink-3);text-decoration:underline;cursor:pointer;font-size:.8em}
+
+/* ---------- PART 7 · checklist ---------- */
+.checklist{list-style:none;margin:1em 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:.7em 1.2em}
+.checklist li{padding:.75em 1em;display:flex;gap:.8em;align-items:center}
+.checklist li{position:relative;cursor:pointer;user-select:none;-webkit-user-select:none}
+.checklist label::after{content:"";position:absolute;inset:0;border-radius:inherit}/* whole box toggles */
+.checklist input{appearance:none;-webkit-appearance:none;flex:none;width:1.3em;height:1.3em;border:2px solid var(--you);border-radius:4px;display:grid;place-items:center;cursor:pointer;margin:0}
+.checklist input:checked{background:var(--you)}
+.checklist input:checked::after{content:"✓";color:#111;font-size:.85em;font-weight:700}
+.checklist label{font-family:var(--f-display);font-weight:var(--d-soft);letter-spacing:var(--d-track);font-size:1.2em;line-height:1.2;cursor:pointer}
+.closing{margin:1.2em 0 0;text-align:center;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:2em;line-height:1.12}
+.closing span{color:var(--you);display:block}
+
+/* ---------- PART 8 · exit ticket ---------- */
+.ticket{list-style:none;margin:.9em 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1em;counter-reset:t}
+.ticket li{padding:1em 1.1em 1.1em;counter-increment:t;display:flex;flex-direction:column;gap:.6em}
+.ticket li::before{content:counter(t);font-family:var(--f-hand);font-weight:700;font-size:2em;color:var(--you);line-height:1}
+.ticket label{font-family:var(--f-display);font-weight:var(--d-soft);letter-spacing:var(--d-track);font-size:1.2em;line-height:1.2}
+.ticket textarea{width:100%;font:inherit;font-size:.9em;color:var(--ink);background:var(--bg-2);border:1px solid var(--rule);border-radius:var(--radius);padding:.5em .7em;min-height:4.2em;resize:vertical}
+.lecture .ticket textarea{display:none}
+.ticket .lines{display:none}
+.lecture .ticket .lines{display:block;height:2.6em;background:repeating-linear-gradient(transparent 0 1.25em,var(--rule) 1.25em calc(1.25em + 1px))}
+.ticket-foot{display:flex;gap:1em;align-items:center;flex-wrap:wrap;margin-top:.9em}
+.close-words{margin-top:.9em;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:1.4em;align-items:center}
+.close-words p{margin:0}
+.close-words .cw{font-size:1.05em;color:var(--ink-2)}
+.close-words .cw2{font-family:var(--f-hand);font-weight:700;color:var(--you);font-size:1.85em;line-height:1.05}
+.thanks{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:3em;line-height:1.05;text-align:center;margin:0}
+.thanks span{display:block;font-size:.5em;color:var(--ink-3);margin-top:.3em}
+
+/* ---------- AFTER CLASS ---------- */
+.after{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:1.4em;align-items:start;margin-top:.6em}
+.xr{padding:1em 1.2em}
+.xr textarea{width:100%;font:inherit;font-size:.86em;color:var(--ink);background:var(--bg-2);border:1px solid var(--rule);border-radius:var(--radius);padding:.5em .7em;min-height:5.5em;resize:vertical;line-height:1.45}
+.lecture .xr textarea{height:4.6em;min-height:0}
+textarea:focus,input:focus{outline:3px solid var(--you);outline-offset:1px}
+.btn-row{display:flex;gap:.5em;flex-wrap:wrap;margin-top:.5em;align-items:center}
+.btn{font-family:var(--f-mono);font-size:.74em;letter-spacing:.08em;text-transform:uppercase;padding:.6em 1em;border-radius:999px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink)}
+.xr-body{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:1em;margin-top:.6em}
+.xr-out{padding:.6em .8em;border:1px dashed var(--rule);border-radius:var(--radius);white-space:pre-wrap;line-height:1.6;font-size:.84em;min-height:3em;max-height:10em;overflow:auto}
+.xr-out:empty::before{content:"Your X-rayed text will appear here.";color:var(--ink-3);font-style:italic}
+mark.xr{background:linear-gradient(transparent 58%,var(--mark) 58%);color:inherit;border-bottom:2px solid var(--you);padding:0 1px}
+mark.xr sup{font-family:var(--f-mono);font-size:.62em;color:var(--you);margin-left:2px}
+.xr-list{list-style:none;margin:0;padding:0;display:grid;gap:.4em;max-height:10em;overflow:auto;font-size:.84em}
+.xr-list li{display:grid;grid-template-columns:1.3em 1fr;gap:.1em .4em;padding-bottom:.4em;border-bottom:1px dashed var(--rule)}
+.xr-list b{font-family:var(--f-mono);font-weight:500;color:var(--you)}
+.xr-list .mach{grid-column:2;font-size:.9em}
+.xr-list .hand{grid-column:2;font-size:1.2em}
+.xr-sum{font-size:.8em;color:var(--ink-2);margin:0 0 .4em}
+.helplist{display:grid;gap:.5em}
+.lecture .helplist a{padding:.5em .85em}
+.lecture .helplist span{font-size:.74em}
+.helplist a{display:block;padding:.65em .9em;text-decoration:none;transition:border-color .25s,transform .25s}
+.helplist a:hover{border-color:var(--you);transform:translateX(3px)}
+.helplist b{display:block;font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:1.05em;line-height:1.15}
+.helplist span{display:block;font-size:.8em;color:var(--ink-2)}
+.foot{border-top:1px solid var(--rule);padding:40px var(--gutter) 56px;font-size:15px;color:var(--ink-3);text-align:center}
+.foot-by{display:block;margin-top:.7em;font-size:14px;letter-spacing:.02em}.foot-by b{font-weight:500;color:var(--ink-2)}
+
+/* ---------- presenter controls ---------- */
+.hud,.pbar{display:none}
+.lecture .hud{display:flex}
+.lecture .pbar{display:block}
+.hud{position:fixed;left:50%;bottom:14px;z-index:80;align-items:center;gap:4px;padding:7px 8px;border-radius:14px;max-width:calc(100vw - 20px);
+  background:color-mix(in srgb,var(--surface) 94%,transparent);border:1px solid var(--rule);box-shadow:0 14px 40px -12px rgba(0,0,0,.55);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--f-mono);font-size:13px;color:var(--ink-2);
+  opacity:0;pointer-events:none;transform:translate(-50%,14px);transition:opacity .25s,transform .25s}
+.lecture.show-ui .hud{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.hud button{border:1px solid transparent;background:none;color:var(--ink-2);font-family:var(--f-mono);font-size:13px;padding:7px 10px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.hud button:hover{background:var(--surface-2);color:var(--ink)}
+.hud .nav-big{font-size:17px;padding:6px 14px;border-color:var(--rule)}
+.hud-mid{display:flex;flex-direction:column;gap:4px;min-width:230px;max-width:380px;padding:0 8px}
+.hud-title{font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud-title span{color:var(--you)}
+.hud-pace{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.hud-pace b{font-weight:500;color:var(--ink-2)}
+.hud-pace.late b{color:var(--you)}
+.hud-sep{width:1px;height:24px;background:var(--rule);margin:0 4px}
+.hud button[aria-pressed="true"].tog{color:var(--you)}
+.pbar{position:fixed;left:0;bottom:0;height:4px;width:100%;background:var(--you);transform-origin:0 50%;transform:scaleX(0);z-index:79;transition:transform .4s}
+.lecture.hide-cursor,.lecture.hide-cursor *{cursor:none!important}
+.blackout{position:fixed;inset:0;background:#000;z-index:95;opacity:0;pointer-events:none;transition:opacity .3s}
+.blackout.on{opacity:1;pointer-events:auto}
+.overlay{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:color-mix(in srgb,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.overlay[hidden]{display:none}
+.ov-panel{width:100%;max-width:1120px;max-height:calc(100vh - 48px);overflow:auto;padding:26px 30px;background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:16px;box-shadow:0 30px 80px -30px rgba(0,0,0,.6);font-size:17px}
+.ov-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:18px}
+.ov-head h2{font-family:var(--f-display);font-weight:var(--d-weight);letter-spacing:var(--d-track);font-size:30px;margin:0}
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px 26px}
+.ov-ch h3{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--you);margin:0 0 6px;display:flex;gap:8px;align-items:baseline}
+.ov-ch h3 kbd{font-family:var(--f-mono);font-size:11px;border:1px solid var(--rule);border-radius:4px;padding:1px 6px;color:var(--ink-3)}
+.ov-ch h3 em{font-style:normal;color:var(--ink-3);margin-left:auto;text-transform:none;letter-spacing:0}
+.ov-ch button{display:flex;gap:10px;width:100%;text-align:left;padding:7px 9px;border:0;border-radius:8px;background:none;cursor:pointer;font-size:15px;line-height:1.3;color:var(--ink-2)}
+.ov-ch button:hover{background:var(--surface-2);color:var(--ink)}
+.ov-ch button.cur{background:var(--you-soft);color:var(--ink)}
+.ov-ch button i{font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--ink-3);min-width:1.8em;padding-top:2px}
+.keys-list{display:grid;grid-template-columns:auto 1fr;gap:10px 22px;margin:0;font-size:16px}
+.keys-list dt{text-align:right;white-space:nowrap}
+.keys-list kbd{display:inline-block;font-family:var(--f-mono);font-size:13px;border:1px solid var(--rule);border-bottom-width:2px;border-radius:5px;padding:2px 8px;margin:0 2px;background:var(--bg-2);color:var(--ink)}
+.keys-list dd{margin:0;color:var(--ink-2);padding-top:3px}
+.ov-note{font-size:14px;color:var(--ink-3);margin:18px 0 0}
+
+/* ---------- design motifs (surfaces only, never words) ---------- */
+
+html body,html.lecture .deck{background:
+  radial-gradient(ellipse 70% 50% at 12% 8%,rgba(63,208,198,.15),transparent 62%),
+  radial-gradient(ellipse 60% 45% at 88% 22%,rgba(38,96,150,.19),transparent 60%),
+  radial-gradient(ellipse 80% 55% at 50% 105%,rgba(227,169,75,.09),transparent 62%),
+  radial-gradient(ellipse 55% 40% at 78% 72%,rgba(63,208,198,.07),transparent 60%),#111926}
+html body{background-attachment:fixed}
+html .card{-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);background:linear-gradient(180deg,rgba(232,240,243,.06),rgba(232,240,243,.025))}
+html .kicker{color:#f2c983;letter-spacing:.18em}
+html .disp em{color:#f2c983}
+html .mach{text-shadow:0 0 18px rgba(63,208,198,.35)}
+html .timer-btn,html .chip-btn.primary{box-shadow:0 0 22px -6px rgba(227,169,75,.45)}
+/* the lifecycle sites' living sky: twinkling stars + drifting nebula, C only */
+.sky{display:none}
+html .sky{display:block;position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+html .deck,html .topbar{z-index:1}
+html .deck{position:relative}
+html.lecture .deck{position:fixed;background:transparent}
+html.lecture body{background:
+  radial-gradient(ellipse 70% 50% at 12% 8%,rgba(63,208,198,.15),transparent 62%),
+  radial-gradient(ellipse 60% 45% at 88% 22%,rgba(38,96,150,.19),transparent 60%),
+  radial-gradient(ellipse 80% 55% at 50% 105%,rgba(227,169,75,.09),transparent 62%),#111926}
+.sky i{position:absolute;inset:-6%;background-repeat:repeat}
+.sky .neb{background:radial-gradient(ellipse 46% 38% at 22% 30%,rgba(63,208,198,.10),transparent 64%),radial-gradient(ellipse 40% 34% at 76% 64%,rgba(38,96,150,.14),transparent 64%);animation:nebDrift 46s ease-in-out infinite alternate}
+.sky .stars{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1100' height='1100'%3E%3Cg fill='%23f2c983' opacity='0.7'%3E%3Cpath d='M140 90 q0 9 9 9 q-9 0 -9 9 q0-9-9-9 q9 0 9-9z'/%3E%3Cpath d='M760 210 q0 6 6 6 q-6 0-6 6 q0-6-6-6 q6 0 6-6z'/%3E%3Cpath d='M420 640 q0 8 8 8 q-8 0-8 8 q0-8-8-8 q8 0 8-8z'/%3E%3Cpath d='M960 880 q0 11 11 11 q-11 0-11 11 q0-11-11-11 q11 0 11-11z'/%3E%3Cpath d='M180 960 q0 6 6 6 q-6 0-6 6 q0-6-6-6 q6 0 6-6z'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cg fill='%23bfe9e5' opacity='0.42'%3E%3Ccircle cx='120' cy='40' r='1.2'/%3E%3Ccircle cx='330' cy='110' r='.9'/%3E%3Ccircle cx='560' cy='70' r='1.3'/%3E%3Ccircle cx='60' cy='260' r='.9'/%3E%3Ccircle cx='260' cy='320' r='1.4'/%3E%3Ccircle cx='470' cy='250' r='1'/%3E%3Ccircle cx='650' cy='360' r='.9'/%3E%3Ccircle cx='150' cy='520' r='1.2'/%3E%3Ccircle cx='380' cy='560' r='1'/%3E%3Ccircle cx='600' cy='600' r='1.3'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cg fill='%23ffffff' opacity='0.42'%3E%3Ccircle cx='44' cy='70' r='1.1'/%3E%3Ccircle cx='160' cy='22' r='.8'/%3E%3Ccircle cx='250' cy='130' r='1.3'/%3E%3Ccircle cx='372' cy='60' r='.9'/%3E%3Ccircle cx='480' cy='180' r='1.1'/%3E%3Ccircle cx='90' cy='250' r='.9'/%3E%3Ccircle cx='210' cy='300' r='1.2'/%3E%3Ccircle cx='330' cy='240' r='.8'/%3E%3Ccircle cx='430' cy='330' r='1.1'/%3E%3Ccircle cx='60' cy='410' r='1'/%3E%3Ccircle cx='180' cy='470' r='.8'/%3E%3Ccircle cx='300' cy='420' r='1.3'/%3E%3Ccircle cx='400' cy='490' r='.9'/%3E%3Ccircle cx='500' cy='440' r='.8'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cg fill='%23ffffff' opacity='0.42'%3E%3Ccircle cx='24' cy='38' r='.8' opacity='.55'/%3E%3Ccircle cx='96' cy='12' r='.5' opacity='.35'/%3E%3Ccircle cx='158' cy='74' r='1' opacity='.6'/%3E%3Ccircle cx='212' cy='30' r='.6' opacity='.4'/%3E%3Ccircle cx='288' cy='96' r='.9' opacity='.5'/%3E%3Ccircle cx='350' cy='44' r='.5' opacity='.3'/%3E%3Ccircle cx='396' cy='128' r='.8' opacity='.45'/%3E%3Ccircle cx='58' cy='150' r='.6' opacity='.4'/%3E%3Ccircle cx='132' cy='196' r='.9' opacity='.5'/%3E%3Ccircle cx='198' cy='158' r='.5' opacity='.3'/%3E%3Ccircle cx='262' cy='224' r='.8' opacity='.5'/%3E%3Ccircle cx='330' cy='180' r='.6' opacity='.35'/%3E%3Ccircle cx='384' cy='252' r='.9' opacity='.45'/%3E%3Ccircle cx='40' cy='288' r='.7' opacity='.4'/%3E%3Ccircle cx='110' cy='336' r='1' opacity='.55'/%3E%3Ccircle cx='176' cy='300' r='.5' opacity='.3'/%3E%3Ccircle cx='244' cy='368' r='.8' opacity='.45'/%3E%3Ccircle cx='308' cy='312' r='.6' opacity='.35'/%3E%3Ccircle cx='372' cy='390' r='.9' opacity='.5'/%3E%3Ccircle cx='74' cy='404' r='.5' opacity='.3'/%3E%3C/g%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.021'/%3E%3C/svg%3E");background-size:1100px 1100px, 700px 700px, 520px 520px, 420px 420px, 160px 160px;opacity:.66;animation:twinkle 7s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.33}to{opacity:1}}
+@keyframes nebDrift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-2.5%,1.8%,0) scale(1.06)}}
+
+/* ---------- reading view: the lifecycle site's scroll motion ----------
+   elements rise in as they reach the viewport (siblings staggered), headings sharpen from a blur
+   and draw a gold→cyan rule, a thin bar tracks progress. Reading view only; Present is untouched. */
+.sprog{position:fixed;top:0;left:0;height:2px;width:100%;z-index:600;pointer-events:none;transform-origin:left center;transform:scaleX(0);
+  background:linear-gradient(90deg,#e3a94b,#3fd0c6);box-shadow:0 0 14px 1px rgba(63,208,198,.45)}
+.lecture .sprog{display:none}
+html:not(.lecture) .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),filter .8s ease,border-color .35s,box-shadow .35s,--spa .35s ease}
+html:not(.lecture) .rv.rv-h{filter:blur(7px)}
+html:not(.lecture) .rv.rv-in{opacity:1;transform:none;filter:none}
+html:not(.lecture).steps [data-step]:not([data-fx]){transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),filter .7s}
+html:not(.lecture).steps [data-step]:not(.on):not([data-fx]){transform:translateY(26px)}
+html:not(.lecture) .slide h2.disp{background:linear-gradient(90deg,#e3a94b,#3fd0c6) no-repeat 0 100%/4.2rem 2px;padding-bottom:.4em}
+html:not(.lecture) .slide h2.disp.rv{background-size:0 2px;transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1),filter .8s ease,background-size 1s cubic-bezier(.2,.7,.2,1) .35s}
+html:not(.lecture) .slide h2.disp.rv.rv-in{background-size:4.2rem 2px}
+/* pointer glow: a soft light follows the cursor across any card (both views, mouse only) */
+@property --spa{syntax:'<number>';inherits:false;initial-value:0}
+html .card{--spc:233,239,242;--spk:.10;transition:--spa .35s ease,border-color .35s,box-shadow .35s,transform .35s;
+  background:radial-gradient(420px circle at var(--sx,50%) var(--sy,50%),rgba(var(--spc),calc(var(--spa) * var(--spk))),transparent 62%),linear-gradient(180deg,rgba(232,240,243,.06),rgba(232,240,243,.025))}
+html .card.spot-on{--spa:1;border-color:rgba(var(--spc),.38)}
+html .library.card,html .remember.card,html .to.card,html .after .card,html .question.card,html .checklist .card,html .ticket .card{--spc:227,169,75;--spk:.16}
+html .pcard.subs,html .note.card,html .scard[data-kind="subs"],html .scard[data-kind="risk"]{--spc:63,208,198;--spk:.14}
+html .pcard.asst{--spc:227,169,75;--spk:.16}
+
+/* ---------- reading view on smaller screens ---------- */
+@media (max-width:1560px){.tb-parts{display:none}}
+@media (max-width:980px){
+  html:not(.lecture) .prompts,html:not(.lecture) .lab-foot,html:not(.lecture) .plists,html:not(.lecture) .distinction,html:not(.lecture) .claim-foot,
+  html:not(.lecture) .lib-row,html:not(.lecture) .revise,html:not(.lecture) .rank-foot,html:not(.lecture) .close-words,html:not(.lecture) .after,
+  html:not(.lecture) .xr-body,html:not(.lecture) .cind{grid-template-columns:1fr}
+  html:not(.lecture) .flow5,html:not(.lecture) .route4,html:not(.lecture) .notes,html:not(.lecture) .rank,html:not(.lecture) .ticket,html:not(.lecture) .checks5{grid-template-columns:1fr 1fr}
+  html:not(.lecture) .flow5 li::after,html:not(.lecture) .route4 li::after{display:none}
+  html:not(.lecture) .revise .arr{transform:rotate(90deg);justify-self:center}
+  .tb-present{display:none}
+}
+@media (max-width:640px){
+  html:not(.lecture) .flow5,html:not(.lecture) .route4,html:not(.lecture) .notes,html:not(.lecture) .rank,html:not(.lecture) .ticket,
+  html:not(.lecture) .checks5,html:not(.lecture) .checklist{grid-template-columns:1fr}
+  html:not(.lecture) .discuss{flex-direction:column;gap:.3em}
+  html:not(.lecture) .remember{grid-template-columns:1fr}
+  html:not(.lecture) .remember .label{grid-row:auto}
+  html:not(.lecture) .axis{font-size:1.1em}
+  html:not(.lecture) .scard .moves button[data-mv="-1"]::before{content:""}
+  .brand{font-size:19px}
+  .tb-tools .chip-btn{padding:8px 10px;font-size:11px}
+}
+@media (max-width:420px){.tb-motion{display:none}}
+
+/* ---------- motion off / print ---------- */
+.motion-off *,.motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important}
+@media print{
+  .topbar,.hud,.pbar,.overlay,.blackout,.drift,.partnav,.tclock,.timers{display:none!important}
+  [data-step]{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important}
+  .slide{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"><i class="neb"></i><i class="stars"></i></div>
+<header class="topbar">
+  <a class="brand" href="#part1">Research <b>+</b> AI</a>
+  <nav class="tb-parts" id="tbParts" aria-label="Parts"></nav>
+  <div class="tb-tools">
+    <button class="chip-btn" type="button" data-open="contents">Contents</button>
+    <button class="chip-btn tb-motion" type="button" data-motion>Motion on</button>
+    <button class="chip-btn primary tb-present" type="button" id="presentBtn">Present ▸</button>
+  </div>
+</header>
+<nav class="partnav" id="partnav" aria-label="Parts of the session"></nav>
+
+<main class="deck" id="deck">
+
+<!-- ============ PART 1 · Hook and central question ============ -->
+<section class="slide s-hero" id="part1" data-part="1" data-title="Today’s question">
+  <div class="slide-in">
+    <div class="drift" id="drift" aria-hidden="true"></div>
+    <p class="overline">Shannon Library<span>·</span>University of Virginia<br>Introduction to Storytelling Across Cultures</p>
+    <h1 class="disp hero-title">Using AI Without Outsourcing <em>Your Thinking</em></h1>
+    <p class="brandline">Research <b>+</b> AI · A Guide for Humanities Students</p>
+    <div class="question card">
+      <span class="label">Today’s question</span>
+      <p class="disp">When does AI support your thinking — and when does it replace it?</p>
+    </div>
+    <div class="hero-lines">
+      <p class="keyline" data-step="1"><span class="mach">Fluency</span> is not the same as <span class="hand">reliability.</span></p>
+      <p class="resp" data-step="2">AI may be able to generate language quickly, but you are still responsible for interpretation, verification, and argument. <span class="hand write-late">That part stays with you.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 2 · What is the intellectual work? ============ -->
+<section class="slide" id="part2" data-part="2" data-title="What is the intellectual work?">
+  <div class="slide-in">
+    <p class="kicker">Part 2 · What is the intellectual work?</p>
+    <ol class="flow5">
+      <li class="card" data-step="1" data-fx="hl"><span class="fn">Ask</span><span class="fd">Turn a topic into a question. A topic is not yet a research question.</span></li>
+      <li class="card" data-step="2" data-fx="hl"><span class="fn">Find</span><span class="fd">Locate peer-reviewed scholarship: sources participating in a scholarly conversation.</span></li>
+      <li class="card" data-step="3" data-fx="hl"><span class="fn">Read</span><span class="fd">Read for interpretation: patterns, assumptions, tensions, contexts.</span></li>
+      <li class="card" data-step="4" data-fx="hl"><span class="fn">Check</span><span class="fd">Verify. Slow down and test what you have found.</span></li>
+      <li class="card" data-step="5" data-fx="hl"><span class="fn">Argue</span><span class="fd">Make your own claim using the evidence you have found and read.</span></li>
+    </ol>
+    <div class="distinction" data-step="6">
+      <div class="dcard asst card"><p class="big">Assistance helps your process.</p><p>A tool helps you with a process that you still control and evaluate.</p></div>
+      <div class="dcard subs card"><p class="big">Substitution replaces your thinking.</p><p>You hand over the intellectual work the assignment is asking you to practice.</p></div>
+    </div>
+    <div class="discuss" data-step="7"><span class="label">Think about it</span><p>Which part of this research process do you think students are most tempted to outsource — and why?</p></div>
+  </div>
+</section>
+
+<!-- ============ PART 3 · Prompt Makeover Lab ============ -->
+<section class="slide" id="part3" data-part="3" data-title="Prompt Makeover Lab">
+  <div class="slide-in">
+    <p class="kicker">Part 3 · Prompt Makeover Lab</p>
+    <div class="prompts">
+      <div class="pcard subs card">
+        <span class="ptag">Prompt A: Substitution</span>
+        <p class="ptext">“Write my paper about trickster tales across cultures.”</p>
+        <div class="reveal" data-step="1">
+          <span class="label">What Prompt A skips</span>
+          <ul class="chips"><li>question formation</li><li>source discovery</li><li>scholarly reading</li><li>interpretation</li><li>evaluation</li><li>the student’s own argument</li></ul>
+        </div>
+      </div>
+      <div class="pcard asst card" style="grid-row:span 2">
+        <span class="ptag">Prompt B: Assistance</span>
+        <p class="ptext">“I’m beginning research on trickster tales across cultures. Help me brainstorm 4 possible research questions exploring how tricksters challenge authority. For each, suggest what kinds of scholarly evidence I would need to look for. <span class="boundary">Do not write an argument.</span>”</p>
+        <div class="reveal" data-step="2" data-act="boundary">
+          <span class="label">The student still has to decide</span>
+          <ul class="chips"><li>Which question is actually interesting?</li><li>Which question is narrow enough for the assignment?</li><li>What cultural traditions or story versions will they focus on?</li><li>What keywords should they search?</li><li>Which peer-reviewed sources are real and relevant?</li><li>What do those sources actually argue?</li><li>What claim can the student make based on the evidence?</li></ul>
+        </div>
+      </div>
+      <div class="lab-foot">
+        <div class="dq"><span class="label">Discussion questions</span><ol><li>What learning does Prompt A skip?</li><li>What intellectual work remains yours in Prompt B?</li></ol></div>
+        <div class="timers"><button class="timer-btn" type="button" data-secs="30" data-label="Think on your own">Think · 30 s</button><button class="timer-btn" type="button" data-secs="60" data-label="Compare with a partner">Pair · 60 s</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="part3b" data-part="3" data-title="Where the intellectual work lives">
+  <div class="slide-in">
+    <p class="kicker">Part 3 · Prompt Makeover Lab</p>
+    <h2 class="disp t-l h-dense">The difference is not just wording. The difference is <em>where the intellectual work lives.</em></h2>
+    <p class="strategy">When you use AI, design your prompt so that it helps you move to the next stage of research, rather than jumping to the final product.</p>
+    <div class="plists">
+      <div class="plist ok card"><span class="label">A helpful AI prompt often sounds like</span>
+        <ul><li>“Help me brainstorm possible research questions.”</li><li>“Suggest keywords I could try in a library database.”</li><li>“What kinds of scholarly evidence would I need?”</li><li>“What are different angles I could explore?”</li><li>“What questions should I ask while reading this source?”</li></ul></div>
+      <div class="plist risk card"><span class="label">A risky AI prompt often sounds like</span>
+        <ul><li>“Write my paper.”</li><li>“Give me my thesis.”</li><li>“Summarize these articles so I do not have to read them.”</li><li>“Tell me what this source proves.”</li><li>“Create citations for my bibliography.”</li></ul></div>
+    </div>
+    <p class="keyq" data-step="1">Am I using AI to help me think, or am I asking AI to think for me?</p>
+  </div>
+</section>
+
+<section class="slide" id="part3c" data-part="3" data-optional data-title="If time remains: Cinderella retellings">
+  <div class="slide-in">
+    <p class="kicker">Part 3 · Prompt Makeover Lab <span class="opt-tag">If time remains</span></p>
+    <h2 class="disp t-l h-dense">The same move, for Cinderella retellings</h2>
+    <div class="cind">
+      <div class="pcard subs card"><span class="ptag">A weak prompt</span><p class="ptext">“Explain what Cinderella means in different cultures.”</p>
+        <p class="small" style="margin:.8em 0 0">That sounds reasonable, but it invites a broad, flattened answer.</p></div>
+      <div class="pcard asst card" data-step="1"><span class="ptag">A stronger prompt</span><p class="ptext">“I’m comparing two Cinderella retellings from different cultural contexts. Help me identify possible analytical lenses, such as gender, family obligation, class, migration, or adaptation. For each lens, suggest what kinds of scholarly sources I would need before making an argument.”</p></div>
+    </div>
+    <p class="strategy" data-step="2" style="font-size:1.1em">Again, the AI is not producing the interpretation. It is helping the student prepare to do the interpretation.</p>
+  </div>
+</section>
+
+<!-- ============ PART 4 · Interrogating an AI claim ============ -->
+<section class="slide" id="part4" data-part="4" data-title="Interrogating an AI claim">
+  <div class="slide-in">
+    <p class="kicker">Part 4 · Interrogating an AI claim</p>
+    <div class="claim card">
+      <span class="label">Sample AI output <em>· an illustration written for this exercise</em></span>
+      <p class="claim-text disp">“Trickster tales <mark class="flag" data-step="1" data-fx="none">universally</mark> function as resistance narratives in <mark class="flag" data-step="2" data-fx="none">colonized cultures</mark>.”</p>
+    </div>
+    <div class="notes">
+      <div class="note card" data-step="1"><span class="label">“universally”</span><p>Everywhere according to whom? Based on what evidence?</p></div>
+      <div class="note card" data-step="2"><span class="label">“colonized cultures”</span><p>Which cultures? Which colonial histories? Which time periods?</p></div>
+      <div class="note card" data-step="3"><span class="label">Where is the evidence?</span><p>No specific tale. No scholar. No article. No primary source. No historical context.</p></div>
+    </div>
+    <div class="claim-foot">
+      <div class="qs"><span class="label">Questions</span><ul><li>What words or assumptions should make us pause?</li><li>What evidence would we need?</li><li>What context might be missing?</li></ul></div>
+      <p class="flatten" data-step="4"><span class="hand">AI can flatten nuance.</span>A possible starting hypothesis. Not something to copy into a paper as established fact.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART 5 · Verification routine and the library ============ -->
+<section class="slide" id="part5" data-part="5" data-title="The verification routine">
+  <div class="slide-in">
+    <p class="kicker">Part 5 · The verification routine</p>
+    <h2 class="disp t-l">Stop. Find. Read. Verify.</h2>
+    <ol class="route4">
+      <li class="card" data-step="1" data-fx="hl"><span class="rn">Step</span><span class="rw">STOP</span><p>Treat fluent claims as unverified hypotheses.</p></li>
+      <li class="card" data-step="2" data-fx="hl"><span class="rn">Step</span><span class="rw">FIND</span><p>Look for real sources in Virgo, JSTOR, MLA International Bibliography, and other library tools.</p></li>
+      <li class="card" data-step="3" data-fx="hl"><span class="rn">Step</span><span class="rw">READ</span><p>Read the primary story and secondary scholarship directly.</p></li>
+      <li class="card" data-step="4" data-fx="hl"><span class="rn">Step</span><span class="rw">VERIFY</span><p>Does real evidence support the claim, or is it too broad?</p></li>
+    </ol>
+    <div class="remember card" data-step="5">
+      <span class="label">Remember</span>
+      <p><span class="mach">AI gives you a citation?</span> <b>Find the source.</b></p>
+      <p><span class="mach">AI gives you a claim?</span> <b>Verify the claim.</b></p>
+      <p><span class="mach">AI gives you an interpretation?</span> <b>Think through it yourself.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="part5b" data-part="5" data-title="Verification improves your thinking">
+  <div class="slide-in">
+    <p class="kicker">Part 5 · Verification and the library</p>
+    <div class="revise">
+      <div class="from card"><span class="label">Instead of saying</span><p>“Trickster tales universally function as resistance narratives in colonized cultures.”</p></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="to card" data-step="1"><span class="label">A more responsible research question</span>
+        <p>“How do scholars interpret Anansi stories as forms of social critique in specific Caribbean or West African contexts?”</p>
+        <p class="small">Or: “Under what historical conditions have trickster figures been read as resisting authority, and where might that interpretation be too limited?”</p></div>
+    </div>
+    <p class="improves" data-step="1">That is what verification does. It does not just catch errors. <b>It improves your thinking.</b></p>
+    <div class="lib-row">
+      <div class="library card" data-step="2"><span class="label">The library is a partner in the process</span>
+        <ul><li>If AI gives you a citation and you cannot find it, bring it to us.</li><li>If AI gives you a broad claim and you need real scholarship, ask us.</li><li>If you are not sure whether a source is peer-reviewed, ask us.</li><li>If you are not sure whether a folktale itself is a primary source or whether an article about the folktale is a secondary source, ask us.</li></ul>
+        <p class="libnote">The library is where you learn how to trace claims back to evidence.</p></div>
+      <div class="twolines" data-step="3"><p>A claim is not reliable because it sounds confident.</p><p>A citation is not real because it looks real.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="part5c" data-part="5" data-optional data-title="If time remains: a citation that looks real">
+  <div class="slide-in">
+    <p class="kicker">Part 5 · Verification <span class="opt-tag">If time remains</span></p>
+    <h2 class="disp t-l h-dense">This looks real. That doesn’t mean it exists.</h2>
+    <div class="cite card"><span class="label">Imagine AI gives you a citation that looks like this</span>
+      <p>Vanchev, Mira. “Trickster Resistance in Global Folklore.” <i>Journal of Folklore Studies</i>, vol. 12, no. 3, 2003, pp. 45–67.</p></div>
+    <span class="label checks-label">Before using it, check</span>
+    <ol class="checks5">
+      <li class="card" data-step="1" data-fx="hl">Does this article title appear in Virgo or a library database?</li>
+      <li class="card" data-step="2" data-fx="hl">Does the journal exist?</li>
+      <li class="card" data-step="3" data-fx="hl">Does the author exist and publish in this field?</li>
+      <li class="card" data-step="4" data-fx="hl">Is there a DOI or stable record?</li>
+      <li class="card" data-step="5" data-fx="hl">Can I access the full text?</li>
+    </ol>
+    <div class="verdict" data-step="6"><p class="keyline">If I cannot verify it, I cannot cite it.</p><p class="small">This citation was invented for the exercise. AI can create citations that look academically formatted but are completely fabricated.</p></div>
+  </div>
+</section>
+
+<!-- ============ PART 6 · AI-use spectrum ============ -->
+<section class="slide" id="part6" data-part="6" data-title="AI-use spectrum">
+  <div class="slide-in">
+    <p class="kicker">Part 6 · AI-use spectrum</p>
+    <div class="rank-head">
+      <h2 class="disp t-m rank-q">Rank these from least intellectual work outsourced to most intellectual work outsourced:</h2>
+      <div class="timers"><button class="timer-btn" type="button" data-secs="30" data-label="Read the four scenarios">Read · 30 s</button><button class="timer-btn" type="button" data-secs="120" data-label="Rank with a partner">Pair · 2 min</button></div>
+    </div>
+    <div class="axis" aria-hidden="true"><span>Least outsourced</span><i></i><span>Most outsourced</span></div>
+    <ol class="rank" id="rank" aria-label="Scenarios, in your order from least to most outsourced">
+      <li class="scard card" data-id="1" data-kind="assist"><div class="sn"><b>Scenario 1</b><span class="moves"><button type="button" data-mv="-1" aria-label="Move earlier">◀</button><button type="button" data-mv="1" aria-label="Move later">▶</button></span></div>
+        <p class="st">“Give me 10 keywords I could use to search library databases for Cinderella adaptation scholarship.”</p>
+        <p class="why"><b>Assistance</b>You expand search vocabulary, but you still use library tools, find real sources, read them, and decide what they mean.</p></li>
+      <li class="scard card" data-id="2" data-kind="risk"><div class="sn"><b>Scenario 2</b><span class="moves"><button type="button" data-mv="-1" aria-label="Move earlier">◀</button><button type="button" data-mv="1" aria-label="Move later">▶</button></span></div>
+        <p class="st">“Give me 5 peer-reviewed journal articles analyzing Chinese Ye Xian Cinderella variants.”</p>
+        <p class="why"><b>High risk</b>AI can invent citations. Every single source must be verified in library systems before you trust it.</p></li>
+      <li class="scard card" data-id="3" data-kind="subs"><div class="sn"><b>Scenario 3</b><span class="moves"><button type="button" data-mv="-1" aria-label="Move earlier">◀</button><button type="button" data-mv="1" aria-label="Move later">▶</button></span></div>
+        <p class="st">“Read these two articles and tell me what thesis statement I should write for my class.”</p>
+        <p class="why"><b>Substitution</b>The clearest example: developing a thesis from evidence is the central intellectual work of the assignment.</p></li>
+      <li class="scard card" data-id="4" data-kind="assist"><div class="sn"><b>Scenario 4</b><span class="moves"><button type="button" data-mv="-1" aria-label="Move earlier">◀</button><button type="button" data-mv="1" aria-label="Move later">▶</button></span></div>
+        <p class="st">“I read this article on West African trickster tales. Help me brainstorm 3 counterarguments to the author’s main claim.”</p>
+        <p class="why"><b>Assistance</b>You have already done the reading; AI acts as a sounding board. You still evaluate whether the counterarguments make sense.</p></li>
+    </ol>
+    <div class="rank-foot">
+      <div class="rank-btns"><button class="btn only-reading" type="button" id="rankShow">Show one way to rank them</button><button class="linkish only-reading" type="button" id="rankReset">Reset</button><span class="small only-lecture">Drag the cards, or use ◀ ▶</span></div>
+      <div class="handed" data-step="2"><p class="q">What work is being handed over?</p><p class="d">If AI helps you generate vocabulary or possibilities, it may be assisting your process. If AI reads, interprets, decides, or argues for you, it is replacing the work you are here to learn.</p></div>
+    </div>
+    <span data-step="1" data-fx="none" data-act="rank" data-only="lecture" hidden></span>
+  </div>
+</section>
+
+<!-- ============ PART 7 · Responsible-use checklist ============ -->
+<section class="slide" id="part7" data-part="7" data-title="Responsible-use checklist">
+  <div class="slide-in">
+    <p class="kicker">Part 7 · Responsible-use checklist</p>
+    <h2 class="disp t-l">Before using AI, ask:</h2>
+    <ul class="checklist">
+      <li class="card" data-step="1" data-fx="hl"><input type="checkbox" id="ck1"><label for="ck1">Am I using this to support my thinking or replace it?</label></li>
+      <li class="card" data-step="2" data-fx="hl"><input type="checkbox" id="ck2"><label for="ck2">Have I read the actual sources myself?</label></li>
+      <li class="card" data-step="3" data-fx="hl"><input type="checkbox" id="ck3"><label for="ck3">Can I verify what AI gave me?</label></li>
+      <li class="card" data-step="4" data-fx="hl"><input type="checkbox" id="ck4"><label for="ck4">Am I paying attention to cultural context and perspective?</label></li>
+      <li class="card" data-step="5" data-fx="hl"><input type="checkbox" id="ck5"><label for="ck5">Does my instructor allow this use?</label></li>
+      <li class="card" data-step="6" data-fx="hl"><input type="checkbox" id="ck6"><label for="ck6">Can I explain my argument in my own words without the tool?</label></li>
+    </ul>
+    <p class="closing" data-step="7">AI can help you research. <span>It cannot be responsible for your research.</span></p>
+  </div>
+</section>
+
+<!-- ============ PART 8 · Exit ticket and wrap-up ============ -->
+<section class="slide" id="part8" data-part="8" data-title="Exit ticket">
+  <div class="slide-in">
+    <p class="kicker">Part 8 · Exit ticket</p>
+    <h2 class="disp t-l">3-Line Exit Ticket</h2>
+    <ol class="ticket">
+      <li class="card"><label for="et1">One way I might use AI to assist my process:</label><textarea id="et1"></textarea><span class="lines" aria-hidden="true"></span></li>
+      <li class="card"><label for="et2">One thing I will verify through the library:</label><textarea id="et2"></textarea><span class="lines" aria-hidden="true"></span></li>
+      <li class="card"><label for="et3">One part of this research project that will remain 100% mine:</label><textarea id="et3"></textarea><span class="lines" aria-hidden="true"></span></li>
+    </ol>
+    <div class="ticket-foot">
+      <div class="timers"><button class="timer-btn" type="button" data-secs="60" data-label="Exit ticket">Write · 60 s</button></div>
+      <span class="only-reading"><button class="btn ghost" type="button" id="etCopy">Copy my ticket</button> <span class="small" id="etMsg">Saved on this device only.</span></span>
+    </div>
+    <div class="close-words" data-step="1">
+      <p class="cw">Research in storytelling is about making meaning across diverse human cultures. AI can help you get unstuck, but it cannot care about cultural context, it cannot read for nuance, and it cannot make an argument on your behalf.</p>
+      <p class="cw2">That work is yours — and the librarians here at Shannon Library are here to help you do it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="thanks" data-part="8" data-title="Thank you · Questions">
+  <div class="slide-in" style="align-items:center;text-align:center">
+    <p class="thanks">Thank you.<span>Questions?</span></p>
+    <p class="brandline" style="margin-top:2em">Using AI Without Outsourcing Your Thinking · Shannon Library</p>
+  </div>
+</section>
+
+<!-- ============ AFTER CLASS ============ -->
+<section class="slide" id="after" data-part="9" data-title="After class: keep going">
+  <div class="slide-in">
+    <p class="kicker">After class</p>
+    <h2 class="disp t-l h-dense">Keep going on your own</h2>
+    <div class="after">
+      <div class="xr card">
+        <span class="label">Claim X-ray · nothing you paste leaves this page</span>
+        <p class="small" style="margin:0 0 .6em;color:var(--ink-2)">Paste an AI answer. The X-ray marks phrasing that often hides a claim (“universally”, “scholars agree”, “the original”, broad groups, dates) and gives you the question to ask. It doesn’t know what’s true; the checking is yours.</p>
+        <label class="sr" for="xrIn">Paste an AI answer</label>
+        <textarea id="xrIn" placeholder="Paste an AI answer here."></textarea>
+        <div class="btn-row"><button class="btn" id="xrGo" type="button">X-ray it</button><button class="btn ghost" id="xrClear" type="button">Clear</button></div>
+        <div class="xr-body"><div class="xr-out" id="xrOut" aria-live="polite"></div><div><p class="xr-sum" id="xrSummary">Every marked phrase gets a number and a question here.</p><ol class="xr-list" id="xrList"></ol></div></div>
+      </div>
+      <div class="helplist">
+        <span class="label">Library help</span>
+        <a class="card" href="https://www.library.virginia.edu/askalibrarian" target="_blank" rel="noopener"><b>Ask a Librarian</b><span>Email, call or text UVA Library, or stop by.</span></a>
+        <a class="card" href="https://www.library.virginia.edu/services/1-on-1-help" target="_blank" rel="noopener"><b>One-on-one help</b><span>Book time with a librarian for your topic or search.</span></a>
+        <a class="card" href="https://search.lib.virginia.edu/" target="_blank" rel="noopener"><b>Virgo</b><span>UVA Library’s catalog.</span></a>
+        <a class="card" href="https://guides.lib.virginia.edu/az.php" target="_blank" rel="noopener"><b>Databases A–Z</b><span>Including JSTOR and MLA International Bibliography.</span></a>
+        <a class="card" href="https://genai.provost.virginia.edu/guidance-for-faculty-students" target="_blank" rel="noopener"><b>UVA guidance on generative AI</b><span>For students, including how to acknowledge AI use.</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="foot">Made for a library instruction session in Shannon Library, University of Virginia, for <i>Introduction to Storytelling Across Cultures</i>.<span class="foot-by">Created by <b>Yulia Brusova</b> · © 2026 Yulia Brusova. All rights reserved.</span></footer>
+
+<!-- activity timer: large enough to read from the back row -->
+<div class="tclock" id="tclock" role="timer" aria-live="off">
+  <svg viewBox="0 0 90 90" aria-hidden="true"><circle class="bg" cx="45" cy="45" r="38"/><circle class="fg" id="tcFg" cx="45" cy="45" r="38" pathLength="1" stroke-dasharray="1"/></svg>
+  <div><div class="t-num" id="tcNum">0:30</div><div class="t-lab" id="tcLab">Think</div></div>
+  <button type="button" id="tcStop">Stop</button>
+</div>
+
+<!-- presenter controls: appear when the mouse moves, vanish while she talks -->
+<div class="hud" id="hud" role="toolbar" aria-label="Presenter controls">
+  <button class="nav-big" type="button" id="hPrev" aria-label="Back">◀</button>
+  <div class="hud-mid"><div class="hud-title" id="hTitle"></div><div class="hud-pace" id="hPace"></div></div>
+  <button class="nav-big" type="button" id="hNext" aria-label="Next">▶</button>
+  <span class="hud-sep"></span>
+  <button type="button" id="hClock" title="Session clock — click to restart">0:00</button>
+  <button type="button" class="tog" id="hOpt" aria-pressed="false" title="Include the ‘if time remains’ screens">Optional off</button>
+  <button type="button" data-open="contents">Plan</button>
+  <button type="button" data-motion>Motion on</button>
+  <button type="button" id="hFull">Full screen</button>
+  <button type="button" data-open="keys" aria-label="Keyboard shortcuts">?</button>
+  <button type="button" id="hExit">Exit</button>
+</div>
+<div class="pbar" id="pbar" aria-hidden="true"></div>
+<div class="blackout" id="blackout" aria-hidden="true"></div>
+<div class="sr" aria-live="polite" id="live"></div>
+
+<div class="overlay" id="contents" hidden role="dialog" aria-modal="true" aria-label="Session plan">
+  <div class="ov-panel">
+    <div class="ov-head"><h2>Session plan</h2><span style="display:flex;gap:8px"><button class="chip-btn" type="button" id="resetClass" title="Clears rehearsal leftovers: clock, position, Optional, checklist ticks, ranking, exit ticket, X-ray text">Reset for class</button><button class="chip-btn" type="button" data-close>Close · Esc</button></span></div>
+    <div class="ov-grid" id="ovGrid"></div>
+    <p class="ov-note">Planned times follow the timed script: about 31–34 minutes with every activity at its scripted length. “If time remains” screens are skipped by the clicker unless Optional is on (key O).</p>
+  </div>
+</div>
+<div class="overlay" id="keys" hidden role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="ov-panel" style="max-width:660px">
+    <div class="ov-head"><h2>Presenting</h2><button class="chip-btn" type="button" data-close>Close · Esc</button></div>
+    <dl class="keys-list">
+      <dt><kbd>→</kbd> <kbd>Page Down</kbd> <kbd>Space</kbd></dt><dd>Next beat (clicker forward)</dd>
+      <dt><kbd>←</kbd> <kbd>Page Up</kbd></dt><dd>Back one beat (clicker back)</dd>
+      <dt><kbd>T</kbd></dt><dd>Start the next activity timer on this screen (again to stop)</dd>
+      <dt><kbd>1</kbd>–<kbd>8</kbd></dt><dd>Jump to Part 1–8 · <kbd>9</kbd> after class</dd>
+      <dt><kbd>R</kbd></dt><dd>Show the rest of this screen at once</dd>
+      <dt><kbd>O</kbd></dt><dd>Include / skip the “if time remains” screens</dd>
+      <dt><kbd>C</kbd></dt><dd>Session plan: jump to any screen</dd>
+      <dt><kbd>B</kbd> <kbd>.</kbd></dt><dd>Blank the screen (press again to return)</dd>
+      <dt><kbd>F</kbd> <kbd>F5</kbd></dt><dd>Full screen</dd>
+      <dt><kbd>M</kbd></dt><dd>Motion on/off</dd>
+      <dt><kbd>X</kbd></dt><dd>Leave presenter view</dd>
+    </dl>
+    <p class="ov-note">Page Up / Page Down work even while the cursor is in a text box, so the clicker never gets stuck. Esc leaves a text box. A reload returns to the same screen and beat.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var root=document.documentElement;
+function $(s,r){return (r||document).querySelector(s)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function clamp(v,a,b){a=a==null?0:a;b=b==null?1:b;return v<a?a:v>b?b:v}
+var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fmt(s){s=Math.max(0,Math.round(s));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+
+try{
+var motion=!root.classList.contains('motion-off');
+var lecture=root.classList.contains('lecture');
+var withOptional=store.get('rai3.opt')==='on';
+
+/* The timed plan (minutes), from the timed script: parts bar, plan overlay, pacing. */
+var PARTS=[null,
+  {n:'Hook',        min:4.5},
+  {n:'The work',    min:5},
+  {n:'Prompts',     min:7},
+  {n:'Claim',       min:3.5},
+  {n:'Verify',      min:4},
+  {n:'Spectrum',    min:6},
+  {n:'Checklist',   min:1.5},
+  {n:'Exit ticket', min:2.5},
+  {n:'After class', min:0}];
+var START=[0,0];for(var pi=1;pi<PARTS.length;pi++)START[pi+1]=START[pi]+PARTS[pi].min;
+
+var slides=$$('.slide'),N=slides.length;
+slides.forEach(function(s,i){
+  s._items=$$('[data-step]',s);s._k=-1;
+  var p=+s.getAttribute('data-part');s._part=p;s._opt=s.hasAttribute('data-optional');
+  s.setAttribute('data-folio',String(i+1));
+  if(p>=1&&p<=8)s.setAttribute('data-num','0'+p);
+});
+
+/* ---------- beat machinery ---------- */
+var ACT={
+  boundary:function(el,on){var b=el.closest('.pcard').querySelector('.boundary');if(b)b.classList.toggle('lit',on)},
+  rank:function(el,on,anim){if(on)rankReveal(anim);else rankUnreveal(anim)}
+};
+function maxStep(s){var m=0;s._items.forEach(function(e){if(e.getAttribute('data-only')==='lecture'&&!lecture)return;m=Math.max(m,+e.getAttribute('data-step'))});return m}
+function applySteps(s,k,animate){
+  var anim=animate&&motion;
+  s._items.forEach(function(el){
+    var n=+el.getAttribute('data-step'),on=n<=k&&!(el.getAttribute('data-only')==='lecture'&&!lecture);
+    el.classList.toggle('now',lecture&&n===k);
+    if(el._on===on)return;el._on=on;
+    if(!anim)el.classList.add('instant');
+    el.classList.toggle('on',on);
+    var act=el.getAttribute('data-act');if(act&&ACT[act])ACT[act](el,on,anim);
+    if(!anim){void el.offsetWidth;el.classList.remove('instant')}
+  });
+  s._k=k;
+}
+
+/* ---------- reading view: each beat builds as it reaches the viewport ----------
+   every stepped element is watched on its own; reaching step n builds the screen up to n
+   (earlier beats and their hooks fire in order, 120ms apart). A screen scrolled past is completed. */
+var VIEW={threshold:.12,rootMargin:'0px 0px -8% 0px'};
+var hasIO='IntersectionObserver' in window;
+var io=hasIO?new IntersectionObserver(function(es){
+  es.forEach(function(e){if(!e.isIntersecting||lecture)return;io.unobserve(e.target);buildTo(e.target.closest('.slide'),+e.target.getAttribute('data-step'))});
+},VIEW):null;
+var pastIO=hasIO?new IntersectionObserver(function(es){
+  es.forEach(function(e){if(!e.isIntersecting&&!lecture&&e.boundingClientRect.top<0)buildTo(e.target,maxStep(e.target))});
+}):null;
+function buildTo(s,n){
+  s._want=Math.max(s._want||0,n);
+  if(!motion){applySteps(s,Math.max(s._k,s._want),false);return}
+  if(s._t)return;
+  (function tick(){s._t=0;if(lecture||s._k>=s._want)return;applySteps(s,s._k+1,true);if(s._k<s._want)s._t=setTimeout(tick,120)})();
+}
+function setupReading(){
+  slides.forEach(function(s){
+    if(s._k>=maxStep(s))return;
+    if(motion&&io){applySteps(s,Math.max(0,s._k),false);s._items.forEach(function(el){if(+el.getAttribute('data-step')>s._k)io.observe(el)});pastIO.observe(s)}
+    else applySteps(s,maxStep(s),false);
+  });
+  setupRise();
+}
+
+/* un-stepped elements (headings, cards, lists) rise in with a sibling stagger; added from JS only */
+var rvIO=hasIO?new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;var el=e.target;rvIO.unobserve(el);
+    var sib=[].filter.call(el.parentElement.children,function(c){return c.classList.contains('rv')}),i=sib.indexOf(el);
+    el.style.transitionDelay=(i>0?Math.min(i,6)*80:0)+'ms';
+    el.classList.add('rv-in');
+    setTimeout(function(){el.style.transitionDelay=''},1600);
+  });
+},VIEW):null;
+function setupRise(){
+  if(!motion||!rvIO)return;
+  var list=[];
+  function add(el){if(el.matches('[data-step]:not([data-fx]),[hidden],.drift')||el.parentElement.closest('[data-step]:not([data-fx])'))return;list.push(el)}
+  slides.forEach(function(s){
+    var si=$('.slide-in',s);if(!si)return;
+    [].forEach.call(si.children,function(ch){
+      var cards=ch.matches('.card')?[]:$$('.card',ch).filter(function(c){return !c.parentElement.closest('.card')});
+      if(cards.length){[].forEach.call(ch.children,function(c){if(!c.matches('.card')&&!c.querySelector('.card'))add(c)});cards.forEach(add)}else add(ch);
+    });
+  });
+  list.forEach(function(el){if(el.matches('h1,h2'))el.classList.add('rv-h');el.classList.add('rv');rvIO.observe(el)});
+}
+function riseAll(){$$('.rv').forEach(function(el){el.classList.add('rv-in');if(rvIO)rvIO.unobserve(el)})}
+
+/* thin gold→cyan progress bar */
+(function(){
+  var bar=document.createElement('div');bar.className='sprog';bar.setAttribute('aria-hidden','true');document.body.appendChild(bar);
+  var tick=false;
+  function upd(){tick=false;if(lecture)return;var h=document.documentElement,p=h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight);bar.style.transform='scaleX('+Math.max(0,Math.min(1,p)).toFixed(4)+')'}
+  addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});upd();
+})();
+
+/* pointer glow on cards: follows the mouse, fades out on leave */
+if(matchMedia('(hover:hover) and (pointer:fine)').matches)(function(){
+  var el=null,x=0,y=0,raf=0;
+  document.addEventListener('pointermove',function(e){
+    var c=e.target.closest&&e.target.closest('.card');
+    if(c!==el){if(el)el.classList.remove('spot-on');el=c;if(el)el.classList.add('spot-on')}
+    if(!el)return;x=e.clientX;y=e.clientY;
+    if(!raf)raf=requestAnimationFrame(function(){raf=0;if(!el)return;var r=el.getBoundingClientRect();
+      el.style.setProperty('--sx',((x-r.left)/r.width*100).toFixed(1)+'%');el.style.setProperty('--sy',((y-r.top)/r.height*100).toFixed(1)+'%')});
+  },{passive:true});
+  document.addEventListener('pointerleave',function(){if(el){el.classList.remove('spot-on');el=null}});
+})();
+
+/* ---------- parts navigation (both views) ---------- */
+function firstOfPart(p){for(var i=0;i<N;i++)if(slides[i]._part===p&&!slides[i]._opt)return i;return -1}
+(function(){
+  var pn='<span class="pn-brand">Research<i>+</i>AI</span>',tb='';
+  for(var p=1;p<=8;p++){pn+='<button type="button" data-part="'+p+'"><b>'+p+'</b>'+esc(PARTS[p].n)+'</button>';tb+='<a href="#'+slides[firstOfPart(p)].id+'" data-part="'+p+'">'+p+' · '+esc(PARTS[p].n)+'</a>'}
+  pn+='<span class="pn-gap"></span><button type="button" data-part="9">After class</button>';
+  $('#partnav').innerHTML=pn;$('#tbParts').innerHTML=tb;
+  $('#partnav').addEventListener('click',function(e){var b=e.target.closest('[data-part]');if(b&&lecture)go(firstOfPart(+b.getAttribute('data-part')),0)});
+})();
+function markParts(p){
+  $$('#partnav [data-part]').forEach(function(b){var q=+b.getAttribute('data-part');b.classList.toggle('cur',q===p);b.classList.toggle('done',q<p)});
+  $$('#tbParts [data-part]').forEach(function(a){a.classList.toggle('on',+a.getAttribute('data-part')===p)});
+}
+if(io){var pio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting&&!lecture)markParts(e.target._part)})},{rootMargin:'-40% 0px -55% 0px'});slides.forEach(function(s){pio.observe(s)})}
+
+/* ---------- presenter view ---------- */
+var cur=0,step=0,black=false;
+function fit(){root.style.setProperty('--s',Math.min(innerWidth/1600,innerHeight/900).toFixed(4))}
+function idxOf(id){for(var i=0;i<N;i++)if(slides[i].id===id)return i;return -1}
+function go(i,k,animate){
+  i=clamp(i,0,N-1);k=clamp(k,0,maxStep(slides[i]));
+  if(i!==cur||!slides[i].classList.contains('current')){
+    slides.forEach(function(s,j){s.classList.toggle('current',j===i);s.setAttribute('aria-hidden',String(j!==i))});
+    applySteps(slides[i],k,false);
+    $('#live').textContent=(slides[i]._part<=8?'Part '+slides[i]._part+': ':'')+slides[i].getAttribute('data-title');
+    stopTimer();
+  }else applySteps(slides[i],k,animate);
+  cur=i;step=k;hud();markParts(slides[i]._part);
+  store.set('rai3.pos',slides[i].id+'/'+k);
+  try{history.replaceState(null,'','#/'+slides[i].id+'/'+k)}catch(e){}
+}
+function skip(i,dir){while(i>=0&&i<N&&slides[i]._opt&&!withOptional)i+=dir;return i}
+function next(){if(black){setBlack(false);return}var m=maxStep(slides[cur]);if(step<m){go(cur,step+1,true);return}var j=skip(cur+1,1);if(j<N)go(j,0)}
+function prev(){if(black){setBlack(false);return}if(step>0){go(cur,step-1,true);return}var j=skip(cur-1,-1);if(j>=0)go(j,maxStep(slides[j]))}
+function revealRest(){go(cur,maxStep(slides[cur]),true)}
+function jumpPart(p){var i=firstOfPart(p);if(i<0)return;if(lecture)go(i,0);else slides[i].scrollIntoView({behavior:motion?'smooth':'auto'})}
+
+/* session clock + pacing against the timed plan */
+var clockStart=+(store.get('rai3.clock')||0)||0,clockT;
+if(clockStart&&Date.now()-clockStart>3*3600*1000)clockStart=0;
+function elapsed(){return clockStart?(Date.now()-clockStart)/1000:0}
+function hud(){
+  var s=slides[cur],m=maxStep(s),p=s._part;
+  $('#hTitle').innerHTML='<span>'+(p<=8?'Part '+p:'After class')+'</span> · '+esc(s.getAttribute('data-title'))+(m?'  ·  beat '+step+'/'+m:'');
+  if(p<=8){var late=clockStart&&elapsed()/60>START[p+1];
+    $('#hPace').innerHTML='Plan for Part '+p+': <b>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</b> ('+PARTS[p].min+' min)';
+    $('#hPace').classList.toggle('late',!!late);
+  }else $('#hPace').textContent='';
+  var total=0,done=0;slides.forEach(function(x,j){if(x._opt&&!withOptional)return;var mm=maxStep(x)+1;total+=mm;if(j<cur)done+=mm;else if(j===cur)done+=step+1});
+  $('#pbar').style.transform='scaleX('+(done/total).toFixed(4)+')';
+}
+function tickClock(){$('#hClock').textContent=fmt(elapsed());if(lecture)hud()}
+function startClock(fresh){if(fresh||!clockStart){clockStart=Date.now();store.set('rai3.clock',String(clockStart))}clearInterval(clockT);clockT=setInterval(tickClock,1000);tickClock()}
+$('#hClock').addEventListener('click',function(){clockStart=Date.now();store.set('rai3.clock',String(clockStart));tickClock()});
+function optLabel(){var b=$('#hOpt');b.textContent=withOptional?'Optional on':'Optional off';b.setAttribute('aria-pressed',String(withOptional))}
+function toggleOpt(){withOptional=!withOptional;store.set('rai3.opt',withOptional?'on':'off');optLabel();if(lecture)hud()}
+$('#hOpt').addEventListener('click',toggleOpt);optLabel();
+
+function enterLecture(full){
+  var from=0,best=Infinity;
+  slides.forEach(function(s,i){var t=Math.abs(s.getBoundingClientRect().top-60);if(t<best){best=t;from=i}});
+  lecture=true;root.classList.add('lecture');store.set('rai3.mode','lecture');fit();
+  slides.forEach(function(s){s._items.forEach(function(e){e._on=undefined});applySteps(s,0,false)});
+  cur=-1;go(from,0);showUI();startClock(true);
+  if(full)toggleFull(true);
+}
+function exitLecture(){
+  lecture=false;root.classList.remove('lecture','show-ui','hide-cursor');store.set('rai3.mode','reading');setBlack(false);stopTimer();
+  if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();
+  slides.forEach(function(s){s.classList.remove('current');s.removeAttribute('aria-hidden');applySteps(s,maxStep(s),false)});riseAll();
+  try{history.replaceState(null,'','#'+slides[cur].id)}catch(e){}
+  slides[cur].scrollIntoView();
+}
+function toggleFull(force){
+  var d=document,el=d.documentElement,isFull=d.fullscreenElement||d.webkitFullscreenElement;
+  if(isFull&&!force){(d.exitFullscreen||d.webkitExitFullscreen).call(d);return}
+  if(!isFull){var rq=el.requestFullscreen||el.webkitRequestFullscreen;if(rq){try{var p=rq.call(el);if(p&&p.catch)p.catch(function(){})}catch(e){}}}
+}
+function setBlack(on){black=on;$('#blackout').classList.toggle('on',on)}
+var uiT;
+function showUI(){root.classList.add('show-ui');root.classList.remove('hide-cursor');clearTimeout(uiT);
+  uiT=setTimeout(function(){if(!$('#hud').matches(':hover')){root.classList.remove('show-ui');root.classList.add('hide-cursor')}},2400)}
+addEventListener('mousemove',function(){if(lecture)showUI()},{passive:true});
+addEventListener('resize',function(){if(lecture)fit()});
+document.addEventListener('fullscreenchange',function(){if(lecture)fit()});
+$('#hPrev').addEventListener('click',prev);$('#hNext').addEventListener('click',next);
+$('#hFull').addEventListener('click',function(){toggleFull()});
+$('#hExit').addEventListener('click',exitLecture);
+$('#presentBtn').addEventListener('click',function(){enterLecture(true)});
+/* in presenter view, clicked controls give focus back so Space/Enter/arrows never re-press them */
+document.addEventListener('click',function(e){if(!lecture)return;var t=e.target.closest&&e.target.closest('button,input[type=checkbox],label,.scard');
+  if(t)setTimeout(function(){var a=document.activeElement;if(a&&a!==document.body&&!/^(TEXTAREA|SELECT)$/.test(a.tagName)&&a.type!=='text')a.blur()},0)});
+document.addEventListener('change',function(e){if(lecture&&/^(range|checkbox)$/.test(e.target.type||''))e.target.blur()});
+
+/* ---------- activity timers ---------- */
+var tmr=null;
+function startTimer(btn){
+  stopTimer();var secs=+btn.getAttribute('data-secs'),t0=Date.now();btn.classList.add('used');
+  $('#tcLab').textContent=btn.getAttribute('data-label');var c=$('#tclock');c.classList.add('on');c.classList.remove('done');
+  tmr={btn:btn,done:false};
+  function paint(){var left=secs-(Date.now()-t0)/1000;$('#tcNum').textContent=fmt(Math.ceil(Math.max(0,left)));$('#tcFg').style.strokeDashoffset=(1-clamp(left/secs)).toFixed(3);
+    if(left<=0&&!tmr.done){clearInterval(tmr.i);c.classList.add('done');$('#tcNum').textContent='Time';tmr.done=true;tmr.hide=setTimeout(stopTimer,6000)}}
+  tmr.i=setInterval(paint,250);paint();
+}
+function stopTimer(){if(!tmr)return;clearInterval(tmr.i);clearTimeout(tmr.hide);$('#tclock').classList.remove('on','done');tmr=null}
+$$('.timer-btn').forEach(function(b){b.addEventListener('click',function(){if(tmr&&tmr.btn===b&&!tmr.done)stopTimer();else startTimer(b)})});
+$('#tcStop').addEventListener('click',stopTimer);
+function timerKey(){
+  if(!lecture)return;
+  if(tmr&&!tmr.done){stopTimer();return}
+  var bs=$$('.timer-btn',slides[cur]);if(!bs.length)return;
+  var fresh=bs.filter(function(b){return !b.classList.contains('used')});
+  if(!fresh.length){bs.forEach(function(b){b.classList.remove('used')});fresh=bs}
+  startTimer(fresh[0]);
+}
+
+/* ---------- Part 6 ranking board ---------- */
+var rankEl=$('#rank'),SCRIPT_ORDER=['1','4','2','3'],preReveal=null;
+function order(){return $$('.scard',rankEl).map(function(c){return c.getAttribute('data-id')})}
+function setOrder(ids,anim){
+  var cards={};$$('.scard',rankEl).forEach(function(c){cards[c.getAttribute('data-id')]=c});
+  var first={};if(anim&&motion)Object.keys(cards).forEach(function(k){first[k]=cards[k].getBoundingClientRect()});
+  ids.forEach(function(id){rankEl.appendChild(cards[id])});
+  if(anim&&motion&&cards[ids[0]].animate)Object.keys(cards).forEach(function(k){var a=first[k],b=cards[k].getBoundingClientRect(),sc=lecture?(+root.style.getPropertyValue('--s')||1):1,dx=(a.left-b.left)/sc,dy=(a.top-b.top)/sc;if(!dx&&!dy)return;
+    cards[k].animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'none'}],{duration:650,easing:'cubic-bezier(.2,.7,.2,1)'})});
+}
+function saveRank(){if(!lecture)store.set('rai3.rank',order().join(''))}
+function rankReveal(anim){if(!rankEl.classList.contains('revealed'))preReveal=order();setOrder(SCRIPT_ORDER,anim);rankEl.classList.add('revealed')}
+function rankUnreveal(anim){rankEl.classList.remove('revealed');if(preReveal)setOrder(preReveal,anim)}
+rankEl.addEventListener('click',function(e){var b=e.target.closest('[data-mv]');if(!b)return;var c=b.closest('.scard'),ids=order(),i=ids.indexOf(c.getAttribute('data-id')),j=clamp(i+(+b.getAttribute('data-mv')),0,3);
+  if(i===j)return;ids.splice(i,1);ids.splice(j,0,c.getAttribute('data-id'));setOrder(ids,true);saveRank()});
+(function(){ /* drag a card: the target slot is read from the pointer against slot centres */
+  var drag=null;
+  function slotAt(e){
+    var cards=$$('.scard',rankEl),others=cards.filter(function(o){return o!==drag.c});
+    var r0=cards[0].getBoundingClientRect(),r1=cards[1].getBoundingClientRect(),horiz=Math.abs(r0.top-r1.top)<Math.abs(r0.left-r1.left);
+    var n=0;others.forEach(function(o){var r=o.getBoundingClientRect(),c=horiz?(r.left+r.right)/2:(r.top+r.bottom)/2;if((horiz?e.clientX:e.clientY)>c)n++});
+    return n;
+  }
+  rankEl.addEventListener('pointerdown',function(e){var c=e.target.closest('.scard');if(!c||e.target.closest('button'))return;
+    drag={c:c,x:e.clientX,y:e.clientY,moved:false};try{c.setPointerCapture(e.pointerId)}catch(err){}});
+  rankEl.addEventListener('pointermove',function(e){if(!drag)return;var dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!drag.moved&&Math.abs(dx)+Math.abs(dy)<6)return;
+    drag.moved=true;drag.c.classList.add('dragging');var s=lecture?(+root.style.getPropertyValue('--s')||1):1;
+    var ids=order(),id=drag.c.getAttribute('data-id'),from=ids.indexOf(id),to=slotAt(e);
+    if(to!==from){ids.splice(from,1);ids.splice(to,0,id);drag.c.style.transform='';var before=drag.c.getBoundingClientRect();setOrder(ids,true);var after=drag.c.getBoundingClientRect();drag.x+=after.left-before.left;drag.y+=after.top-before.top}
+    drag.c.style.transform='translate('+((e.clientX-drag.x)/s)+'px,'+((e.clientY-drag.y)/s)+'px)'});
+  function end(){if(!drag)return;drag.c.classList.remove('dragging');drag.c.style.transform='';if(drag.moved)saveRank();drag=null}
+  rankEl.addEventListener('pointerup',end);rankEl.addEventListener('pointercancel',end);
+})();
+$('#rankShow').addEventListener('click',function(){rankReveal(true)});
+$('#rankReset').addEventListener('click',function(){rankEl.classList.remove('revealed');preReveal=null;setOrder(['1','2','3','4'],true);store.set('rai3.rank','1234')});
+(function(){var s=store.get('rai3.rank');if(s&&/^[1-4]{4}$/.test(s)&&!lecture)setOrder(s.split(''),false)})();
+
+/* ---------- Part 7 checklist + Part 8 exit ticket (saved on this device) ---------- */
+$$('.checklist input').forEach(function(c){c.checked=store.get('rai3.'+c.id)==='1';c.addEventListener('change',function(){store.set('rai3.'+c.id,c.checked?'1':'0')})});
+$$('.ticket textarea').forEach(function(t){t.value=store.get('rai3.'+t.id)||'';t.addEventListener('input',function(){store.set('rai3.'+t.id,t.value)})});
+$('#etCopy').addEventListener('click',function(){
+  var labels=$$('.ticket label').map(function(l){return l.textContent}),txt=$$('.ticket textarea').map(function(t,i){return (i+1)+'. '+labels[i]+' '+t.value.trim()}).join('\n'),msg=$('#etMsg');
+  function fb(){msg.textContent='Select your answers and copy them with ⌘C / Ctrl+C.'}
+  try{if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(function(){msg.textContent='Copied.'},fb);else fb()}catch(e2){fb()}
+});
+
+/* ---------- Claim X-ray (after class) ---------- */
+var XR=[
+  {re:/\b(?:scholars|experts|historians|critics|researchers|academics|folklorists|many people|most people)\s+(?:generally\s+|widely\s+|broadly\s+|largely\s+)?(?:agree|believe|argue|say|suggest|note|consider|maintain|view)\b/gi,q:'Which ones? Name one, and find where they said it.'},
+  {re:/\b(?:it\s+is|it's|is|are|was|were)\s+(?:widely|generally|commonly|often|universally|largely)\s+(?:known|believed|accepted|thought|agreed|regarded|considered|recognized|recognised|seen)\b|\b(?:widely|generally|commonly|universally)\s+(?:regarded|considered|seen|accepted|believed|known|recognized|recognised)\b/gi,q:'Known by whom? Says who?'},
+  {re:/\bthe\s+(?:original|first|earliest|true|real|authentic|definitive)(?:\s+(?:version|story|text|source|tale|poem|ballad|legend|form|account))?\b/gi,q:'Is there one? Who decided it came first?'},
+  {re:/\b(?:symboli[sz]es|symboli[sz]ing|represents|reflects|embodies|highlights|underscores|serves\s+as|is\s+a\s+symbol\s+of|stands\s+for|reminds\s+us|celebrates|teaches\s+us|functions?\s+as)\b/gi,q:'That’s one reading. Whose? What’s another?'},
+  {re:/\b(?:always|never|universally|universal|undeniably|undoubtedly|clearly|certainly|definitively|without\s+(?:a\s+)?doubt|timeless|in\s+all\s+cultures)\b/gi,q:'Everywhere according to whom? Look for the exception.'},
+  {re:/\b(?:according\s+to(?:\s+(?:a|one|recent|new)(?:\s+recent)?\s+(?:study|survey|report|paper))?|studies\s+(?:show|suggest|have\s+shown)|research\s+(?:shows|suggests|has\s+shown)|a\s+(?:recent\s+)?study|evidence\s+(?:shows|suggests))\b/gi,q:'Find it. Does it exist, and does it say this?'},
+  {re:/\b(?:colonized|indigenous|western|eastern|african|asian|non-western|traditional)\s+(?:cultures|societies|peoples|traditions|communities)\b/gi,q:'Which ones? Which histories? Which time periods?'},
+  {re:/\b(?:1[0-9]{3}|20[0-3][0-9])s?\b|\b(?:\d{1,2}(?:st|nd|rd|th)|first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth)[\s-]+century\b/gi,q:'Checkable. Is it documented, or estimated, and by whom?'},
+  {re:/“[^”]{3,240}”|"[^"\n]{3,240}"/g,q:'Who said this? Find the original.'}
+];
+var xrIn=$('#xrIn'),xrOut=$('#xrOut'),xrList=$('#xrList'),xrSum=$('#xrSummary');
+function runXray(){
+  var text=xrIn.value;store.set('rai3.xray',text);
+  if(!text.trim()){xrOut.innerHTML='';xrList.innerHTML='';xrSum.textContent='Every marked phrase gets a number and a question here.';return}
+  var hits=[];
+  XR.forEach(function(p,pi){p.re.lastIndex=0;var m;while((m=p.re.exec(text))){hits.push({s:m.index,e:m.index+m[0].length,pi:pi});if(!m[0].length)p.re.lastIndex++}});
+  hits.sort(function(a,b){return a.s-b.s||(b.e-b.s)-(a.e-a.s)});
+  var kept=[],end=-1;hits.forEach(function(h){if(h.s>=end){kept.push(h);end=h.e}});
+  var out='',pos=0,list='';
+  kept.forEach(function(h,n){var p=XR[h.pi],frag=text.slice(h.s,h.e);
+    out+=esc(text.slice(pos,h.s))+'<mark class="xr">'+esc(frag)+'<sup>'+(n+1)+'</sup></mark>';pos=h.e;
+    list+='<li><b>'+(n+1)+'</b><span class="mach">'+esc(frag.length>60?frag.slice(0,57)+'…':frag)+'</span><span class="hand">'+esc(p.q)+'</span></li>';
+  });
+  out+=esc(text.slice(pos));xrOut.innerHTML=out;xrList.innerHTML=list;
+  xrSum.textContent=kept.length?(kept.length+(kept.length===1?' phrase':' phrases')+' worth a question. A mark means “check me,” not “wrong.” Unmarked sentences can be wrong too.'):'Nothing matched the usual patterns. That doesn’t make it right: read it for names, dates and claims anyway.';
+}
+$('#xrGo').addEventListener('click',runXray);
+$('#xrClear').addEventListener('click',function(){xrIn.value='';runXray();xrIn.focus()});
+var savedX=store.get('rai3.xray');if(savedX){xrIn.value=savedX;runXray()}
+
+/* ---------- plan overlay + keys ---------- */
+function buildContents(){
+  var html='';
+  for(var p=1;p<=9;p++){
+    var items='';slides.forEach(function(s,i){if(s._part===p)items+='<button type="button" data-go="'+i+'" class="'+(lecture&&i===cur?'cur':'')+'"><i>'+(i+1)+'</i>'+esc(s.getAttribute('data-title'))+'</button>'});
+    html+='<div class="ov-ch"><h3><kbd>'+p+'</kbd>'+esc(p<=8?'Part '+p+' · '+PARTS[p].n:'After class')+(p<=8?'<em>'+fmt(START[p]*60)+'–'+fmt(START[p+1]*60)+'</em>':'')+'</h3>'+items+'</div>';
+  }
+  $('#ovGrid').innerHTML=html;
+}
+function openOv(id){closeOv();if(id==='contents')buildContents();var o=document.getElementById(id);o.hidden=false;var f=o.querySelector('button');if(f)f.focus()}
+function closeOv(){$$('.overlay').forEach(function(o){o.hidden=true})}
+function ovOpen(){return $$('.overlay').some(function(o){return !o.hidden})}
+$$('[data-open]').forEach(function(b){b.addEventListener('click',function(){openOv(b.getAttribute('data-open'))})});
+$$('[data-close]').forEach(function(b){b.addEventListener('click',closeOv)});
+$$('.overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===o)closeOv()})});
+$('#ovGrid').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(!b)return;var i=+b.getAttribute('data-go');closeOv();
+  if(lecture)go(i,0);else slides[i].scrollIntoView({behavior:motion?'smooth':'auto'})});
+
+/* ---------- reset for class: clear every rehearsal leftover, start at Part 1 ---------- */
+$('#resetClass').addEventListener('click',function(){
+  ['rai3.clock','rai3.pos','rai3.opt','rai3.rank','rai3.xray','rai3.ck1','rai3.ck2','rai3.ck3','rai3.ck4','rai3.ck5','rai3.ck6','rai3.et1','rai3.et2','rai3.et3','rai.spec','rai.xray'].forEach(function(k){try{localStorage.removeItem(k)}catch(e){}});
+  $$('.checklist input').forEach(function(c){c.checked=false});$$('.ticket textarea').forEach(function(t){t.value=''});
+  xrIn.value='';runXray();rankEl.classList.remove('revealed');preReveal=null;setOrder(['1','2','3','4'],false);
+  withOptional=false;optLabel();$$('.timer-btn').forEach(function(b){b.classList.remove('used')});stopTimer();
+  closeOv();
+  if(lecture){slides.forEach(function(s){applySteps(s,0,false)});go(0,0);startClock(true)}else{slides[0].scrollIntoView()}
+  $('#live').textContent='Reset for class. Ready at Part 1.';
+});
+
+/* ---------- motion ---------- */
+function motionLabels(){$$('[data-motion]').forEach(function(b){b.textContent=motion?'Motion on':'Motion off';b.setAttribute('aria-pressed',String(motion))})}
+function toggleMotion(){motion=!motion;root.classList.toggle('motion-off',!motion);store.set('rai2.motion',motion?'on':'off');motionLabels();
+  if(!motion&&!lecture){slides.forEach(function(s){applySteps(s,maxStep(s),false)});riseAll()}}
+$$('[data-motion]').forEach(function(b){b.addEventListener('click',toggleMotion)});
+motionLabels();
+
+/* ---------- keyboard: clicker-safe ---------- */
+document.addEventListener('keydown',function(e){
+  /* only real text boxes keep the arrow keys; a focused checkbox or card never swallows the clicker */
+  var k=e.key,field=e.target.closest&&e.target.closest('textarea,select,[contenteditable],input:not([type=range]):not([type=checkbox]):not([type=radio]):not([type=button])');
+  if(k==='Escape'){if(ovOpen()){closeOv();e.preventDefault()}else if(field)e.target.blur();else if(black)setBlack(false);return}
+  if(e.metaKey||e.ctrlKey||e.altKey)return;
+  if(k==='F5'){e.preventDefault();if(!lecture)enterLecture(true);else toggleFull(true);return}
+  if(lecture&&(k==='PageDown'||k==='PageUp')){e.preventDefault();if(field)e.target.blur();closeOv();if(k==='PageDown')next();else prev();return}
+  if(field)return;
+  if(ovOpen()){if(k==='?'||k==='c'||k==='C'){closeOv();e.preventDefault()}return}
+  if(lecture){
+    if(k==='ArrowRight'||k==='ArrowDown'||k===' '||k==='Enter'){e.preventDefault();next()}
+    else if(k==='ArrowLeft'||k==='ArrowUp'||k==='Backspace'){e.preventDefault();prev()}
+    else if(k==='Home'){e.preventDefault();go(0,0)}
+    else if(k==='End'){e.preventDefault();go(N-1,0)}
+    else if(/^[1-9]$/.test(k)){e.preventDefault();jumpPart(+k)}
+    else if(k==='t'||k==='T'){timerKey()}
+    else if(k==='r'||k==='R'){revealRest()}
+    else if(k==='o'||k==='O'){toggleOpt()}
+    else if(k==='b'||k==='B'||k==='.'){setBlack(!black)}
+    else if(k==='f'||k==='F'){toggleFull()}
+    else if(k==='x'||k==='X'){exitLecture()}
+    else if(k==='c'||k==='C'){openOv('contents')}
+    else if(k==='m'||k==='M'){toggleMotion()}
+    else if(k==='?'){openOv('keys')}
+  }else{
+    if(k==='p'||k==='P'){enterLecture(true)}
+    else if(k==='c'||k==='C'){openOv('contents')}
+    else if(k==='m'||k==='M'){toggleMotion()}
+    else if(k==='?'){openOv('keys')}
+    else if(k==='ArrowRight'||k==='ArrowLeft'){
+      e.preventDefault();var y=60,t=null;
+      if(k==='ArrowRight'){for(var i=0;i<N;i++){if(slides[i].getBoundingClientRect().top>y+8){t=slides[i];break}}}
+      else{for(var j=N-1;j>=0;j--){if(slides[j].getBoundingClientRect().top<y-8){t=slides[j];break}}}
+      if(t)t.scrollIntoView({behavior:motion?'smooth':'auto'});
+    }
+  }
+});
+
+/* ---------- hero: story openings drifting in the background ---------- */
+(function(){
+  var F=[['Once upon a time','en'],['Il était une fois','fr'],['كان يا ما كان','ar'],['Es war einmal','de'],['Hapo zamani za kale','sw'],['یکی بود یکی نبود','fa'],
+    ['C’era una volta','it'],['एक बार की बात है','hi'],['Bir varmış, bir yokmuş','tr'],['むかしむかし','ja'],['Érase una vez','es'],['옛날 옛적에','ko'],
+    ['Жили-были','ru'],['很久很久以前','zh'],['Μια φορά κι έναν καιρό','el'],['Era uma vez','pt']],RTL={ar:1,fa:1};
+  var d=$('#drift'),r=rng(5),html='';
+  F.concat(F.slice(0,6)).forEach(function(f,i){
+    var x,y,s=.6+r();
+    if(i%2){y=88+r()*7;x=r()*80}else{y=20+r()*62;x=r()<.5?r()*5:82+r()*9}
+    html+='<span lang="'+f[1]+'"'+(RTL[f[1]]?' dir="rtl"':'')+' style="left:'+x.toFixed(1)+'%;top:'+y.toFixed(1)+'%;font-size:'+s.toFixed(2)+'em;--t:'+(14+r()*14).toFixed(1)+'s;--dx:'+((r()-.5)*50).toFixed(0)+'px;--dy:'+((r()-.5)*40).toFixed(0)+'px;animation-delay:-'+(r()*10).toFixed(1)+'s">'+esc(f[0])+'</span>';
+  });
+  d.innerHTML=html;
+})();
+
+/* ---------- start ---------- */
+if(lecture){
+  var m=location.hash.match(/^#\/([\w-]+)\/(\d+)/),saved=(store.get('rai3.pos')||'').split('/'),i0=0,k0=0;
+  if(m&&idxOf(m[1])>=0){i0=idxOf(m[1]);k0=+m[2]}else if(!/^#present/.test(location.hash)&&idxOf(saved[0])>=0){i0=idxOf(saved[0]);k0=+saved[1]||0}
+  fit();slides.forEach(function(s){applySteps(s,0,false)});cur=-1;go(i0,k0);showUI();startClock();
+}else{
+  setupReading();markParts(1);
+  var h=location.hash.slice(1);if(h&&document.getElementById(h))document.getElementById(h).scrollIntoView();
+}
+window.RAI_OK=true;
+window.RAI_DECK={go:go,next:next,prev:prev,count:N,max:function(i){return maxStep(slides[i])},pos:function(){return [cur,step]},enter:enterLecture,exit:exitLecture,ids:function(){return slides.map(function(s){return s.id})},opt:function(v){withOptional=!!v;optLabel()}};
+}catch(err){
+  root.classList.remove('steps','lecture');
+  if(window.console)console.error(err);
+}
+})();
+</script>
+</body>
+</html>

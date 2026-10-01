@@ -1,0 +1,16 @@
+{
+  "name": "introduction-to-storytelling",
+  "version": "1.0.0",
+  "description": "Using AI Without Outsourcing Your Thinking: a guided workspace for Introduction to Storytelling Across Cultures, Shannon Library, University of Virginia.",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "preview": "python3 -m http.server 8000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
